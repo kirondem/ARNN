@@ -1,0 +1,29 @@
+TODO-
+- Associative activation
+
+- Store and record Lambda
+- Activation decay [DONE]
+- Learning rate decay [DONE]
+
+-- Lambda -- 
+Lambda popularity of connections
+Initially set Lambda to 1
+Hierachy by units with similary (Time) Activation
+Purge weakly connections
+
+--Bugs
+Input units shouldnt have incomming weights
+
+
+--Features
+Use to cartpole
+output units
+multiple layers
+
+-- Plots --
+display weights
+
+
+Bugs
+decayed_activations_idxs t=0 can all zeros
+

@@ -1,0 +1,26 @@
+# Build results
+
+[Ll]og/
+.vscode/*
+
+*.pyc
+*.pt
+*.log
+*.pth
+
+__pycache__/
+
+src/arrt1d/*
+src/saved_models/*
+src/pre_trained_models/*.pth
+src/pre_trained_models/*.zip
+src/models/*.pth
+src/plots/*.*
+src/results/*
+src/frames/*
+src/frames/*.*
+src/plots/*
+*.err
+*.output
+*.pth
+
