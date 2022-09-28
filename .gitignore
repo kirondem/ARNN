@@ -9,7 +9,7 @@
 *.pth
 
 __pycache__/
-
+src/data/*
 src/arrt1d/*
 src/saved_models/*
 src/pre_trained_models/*.pth
