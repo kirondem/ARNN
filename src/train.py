@@ -96,14 +96,18 @@ def train(network, data, data_size, batch_size, epochs, time_steps, lr, decay_th
             #data = np.squeeze(data, axis=1)
             # W, H_H = network.learn(small_image, learning_rate)
 
-            W, H, H_H = network.learn(small_image, time_steps, learning_rate, decay_threshold)
+            W, H, H_H, avg_w_list = network.learn(small_image, time_steps, learning_rate, decay_threshold)
+
+        x_ticks = [str(i + 1) for i in range(len(avg_w_list))]
+        plot_utils.save_plot(avg_w_list, "Avg weight", "Time steps", "Average weight", os.path.join(PATH, 'plots', "avg_w_{}.png".format(time_steps)), x_ticks)
+
 
         #show_image(small_image)
-        path = os.path.join('saved_models', '{}_{}_h.npy'.format(epochs, time_steps))
+        path = os.path.join(PATH, 'saved_models', '{}_{}_h.npy'.format(epochs, time_steps))
         with open(path, 'wb') as f:
             np.save(f, H)
 
-        path = os.path.join('saved_models', '{}_{}_hh.npy'.format(epochs, time_steps))
+        path = os.path.join(PATH, 'saved_models', '{}_{}_hh.npy'.format(epochs, time_steps))
         with open(path, 'wb') as f:
             np.save(f, H_H)
 
@@ -113,7 +117,7 @@ def train(network, data, data_size, batch_size, epochs, time_steps, lr, decay_th
         #state = state.reshape((1, 14, 1, 14, 1)).max(4).max(2)
 
         state = np.squeeze(state, axis=0)
-        path = os.path.join('plots', '{}_{}_h.png'.format(epochs, time_steps))
+        path = os.path.join(PATH, 'plots', '{}_{}_h.png'.format(epochs, time_steps))
         plt.clf()
         plot_utils.save_image(state, '', '', "Associative activation (H)", path)
         #plt.show()
