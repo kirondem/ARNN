@@ -17,3 +17,11 @@ def heaviside_step_activation(tot_incoming_drive, threshold):
         heaviside_step[t] = 0.0 if tot_incoming_drive[t] < threshold[t] else 1.0
 
     return heaviside_step
+
+#Sigmoid funstion
+def sigmoid(x):
+    return 1/(np.exp(-x)+1) 
+    
+def softmax(x):
+    exponents=np.exp(x)
+    return exponents/np.sum(exponents)

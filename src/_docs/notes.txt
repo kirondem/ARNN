@@ -12,9 +12,7 @@ sharedscratch - Temporally space available to all nodes
 
 /users/adbg238/Work/PhD/src/batch_jobs
 sbatch train.sh
-
-source /opt/flight/etc/setup.sh
-flight env activate gridware
+sbatch train_mnist.sh
 
 
 https://www.vanderbilt.edu/accre/documentation/python/
@@ -43,5 +41,10 @@ cd $WORKDIR
 #Run the program with our input
 set BINDIR="/uufs/chpc.utah.edu/sys/pkg/mypackage/bin"
 $BINDIR/myprogram < $WORKDIR/input > $WORKDIR/output
+
+
+To run batch script
+source /opt/flight/etc/setup.sh
+flight env activate gridware
 
 

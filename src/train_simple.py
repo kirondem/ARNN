@@ -16,7 +16,8 @@ config_parser = ConfigParser()
 config_parser.read('configuration.ini')
 
 epochs = 1 # number of epochs
-lr = float(config_parser.get('Network_Config', 'learning_rate'))
+#lr = float(config_parser.get('Network_Config', 'learning_rate'))
+
 lr = 0.001
 decay_threshold = 0.01
 
@@ -25,6 +26,7 @@ def get_args_parser():
     parser.add_argument('--env', type=str, default="laptop", help='Enviroment [default: laptop]')
     parser.add_argument('--lr', default=lr, type=float)
     parser.add_argument('--time_steps', default=3, type=int)
+    parser.add_argument('--no_of_units', default=10, type=int, help='Number of units in the associative network')
 
     return parser.parse_args()
 
@@ -41,7 +43,7 @@ def main():
 
     data = np.array([0.1, 0.1, 0.9])
 
-    network = AssociativeNetwork(args.time_steps)
+    network = AssociativeNetwork(args.no_of_units, args.time_steps)
 
     for epoch in range(epochs):
 
