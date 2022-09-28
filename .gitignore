@@ -10,6 +10,7 @@
 
 __pycache__/
 src/data/*
+src/data/MNIST/raw/train-images-idx3-ubyte.gz
 src/arrt1d/*
 src/saved_models/*
 src/pre_trained_models/*.pth
