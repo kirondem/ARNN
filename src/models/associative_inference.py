@@ -28,17 +28,11 @@ class AssociativeInference(Base):
         self.H_H[0] = []
         self.DECAYED_IDXS[0] = []
         self.DECAYED_ACTIVATIONS[0] = np.zeros(no_of_units)
-        self.W_H = np.zeros((10, no_of_units))   # Head Weights matrix
+        self.W_OUT = np.zeros((10, no_of_units))   # Head Weights matrix
 
-    def inference(self, x, time_steps, learning_rate, decay_threshold):
+    def inference(self, x, y, time_steps, learning_rate, decay_threshold):
 
-        # Collect the network activity at all time steps
-        sum_x_list = []
-        sum_h_list = []
-        sum_hh_list = []
-        sum_w_list = []
         avg_w_list = []
-
         active_units_list = []
         assoc_active_units_list = []
 
@@ -66,15 +60,6 @@ class AssociativeInference(Base):
                 self.DECAYED_ACTIVATIONS[t + 1] = decayed_activations
                 self.H[t + 1] = decayed_activations
 
-            sum_x = sum(x)
-            sum_h = sum(self.H[t])
-            sum_hh = sum(self.H_H[t])
-            sum_w = sum(map(sum, W))
-
-            sum_x_list.append(sum_x)
-            sum_h_list.append(sum_h)
-            sum_hh_list.append(sum_hh)
-            sum_w_list.append(sum_w)
             a = mean(W.mean(axis=0))
             avg_w_list.append(a)
 
@@ -84,15 +69,13 @@ class AssociativeInference(Base):
             no_of_assoc_active_units =  self.H_H[t] > 0
             assoc_active_units_list.append(no_of_assoc_active_units.sum())
 
-        # output layer
         H_OUT = self.H_H[-1]
-        #H_OUT = self.H_H[-1].reshape(1, -1)
-        Zh = np.dot(H_OUT.reshape(1, -1), np.transpose(self.W_H))
+        Zh = np.dot(H_OUT.reshape(1, -1), np.transpose(self.W_OUT))
         Zh = Zh.flatten()
-        Zh = activation_functions.softmax(Zh)
-        #Zh = activation_functions.sigmoid(Zh)
-  
-        y = np.array([1, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+
+        #print(np.argmax(Zh)) # 1, 10
+        y = y.flatten()
+        print(y)
         for from_idx in range(H_OUT.shape[0]):
             for to_idx in range(y.shape[0]):
                 h_to = y[to_idx]
@@ -105,17 +88,9 @@ class AssociativeInference(Base):
 
                 d_w = learning_rate * h_from * (to_lambda_max * h_to - (v_total))
 
-                #if 1 == 2:
-                print('------------------')
-                print("lambda max:", to_lambda_max)
-                print("v_total:", v_total)
-                print("d_w:", d_w)
-                
-                self.W_H[to_idx][from_idx] = self.W_H[to_idx][from_idx] + d_w
+                self.W_OUT[to_idx] += d_w
             
-        
-
-        return self.W, self.H, self.H_H, avg_w_list, active_units_list, assoc_active_units_list
+        return self.W, self.W_OUT, self.H, self.H_H, avg_w_list, active_units_list, assoc_active_units_list
 
 
 

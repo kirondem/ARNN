@@ -80,62 +80,82 @@ def train(network, data, y, data_size, batch_size, epochs, time_steps, lr, decay
             input = input.flatten()
 
             label = y[i*batch_size: (i+1)*batch_size]
+            print("---- Input " + str(i))
             
+            W, Wt_LAST, W_OUT, H, H_H, avg_w_list, active_units_list, assoc_active_units_list = network.learn(input, label, time_steps, learning_rate, decay_threshold)
 
-            W, W_OUT, H, H_H, avg_w_list, active_units_list, assoc_active_units_list = network.learn(input, label, time_steps, learning_rate, decay_threshold)
+            # Reseting the network timesteps
+            #W_last = W[-1]
+            network.reset(time_steps, Wt_LAST)
 
-        x_ticks = [str(i + 1) for i in range(len(avg_w_list))]
-        plot_utils.save_plot(avg_w_list, "Avg weight", "Time steps", "Average weight", os.path.join(PATH, 'plots', "avg_w_{}_{}.png".format(time_steps, APPLICATION)), x_ticks)
+    #     x_ticks = [str(i + 1) for i in range(len(avg_w_list))]
+    #     plot_utils.save_plot(avg_w_list, "Avg weight", "Time steps", "Average weight", os.path.join(PATH, 'plots', "avg_w_{}_{}.png".format(time_steps, APPLICATION)), x_ticks)
         
-        x_ticks = [str(i + 1) for i in range(len(active_units_list))]
-        plt.clf()
-        plt.plot(list(range(0, len(active_units_list))), active_units_list)
-        plt.plot(list(range(0, len(assoc_active_units_list))), assoc_active_units_list)
-        plt.ylabel("No of active units")
-        plt.xlabel("Time steps")
-        if x_ticks is not None:
-            plt.xticks(ticks=range(0,len(active_units_list)), labels=x_ticks)
-        plt.legend(["Active units", "Assoc active units"])
+    #     x_ticks = [str(i + 1) for i in range(len(active_units_list))]
+    #     plt.clf()
+    #     plt.plot(list(range(0, len(active_units_list))), active_units_list)
+    #     plt.plot(list(range(0, len(assoc_active_units_list))), assoc_active_units_list)
+    #     plt.ylabel("No of active units")
+    #     plt.xlabel("Time steps")
+    #     if x_ticks is not None:
+    #         plt.xticks(ticks=range(0,len(active_units_list)), labels=x_ticks)
+    #     plt.legend(["Active units", "Assoc active units"])
 
-        plt.title("No of unit activations")
-        path = os.path.join(PATH, 'plots', "active_units_{}_{}.png".format(time_steps, APPLICATION))
-        plt.savefig(path)
+    #     plt.title("No of unit activations")
+    #     path = os.path.join(PATH, 'plots', "active_units_{}_{}.png".format(time_steps, APPLICATION))
+    #     plt.savefig(path)
 
-        path = os.path.join(PATH, 'saved_models', '{}_{}_{}_w.npy'.format(epochs, time_steps, APPLICATION))
-        with open(path, 'wb') as f:
-            np.save(f, W)
+    #     path = os.path.join(PATH, 'saved_models', '{}_{}_{}_w.npy'.format(epochs, time_steps, APPLICATION))
+    #     with open(path, 'wb') as f:
+    #         np.save(f, W)
 
-        path = os.path.join(PATH, 'saved_models', '{}_{}_{}_W_OUT.npy'.format(epochs, time_steps, APPLICATION))
-        with open(path, 'wb') as f:
-            np.save(f, W_OUT)
+    #     path = os.path.join(PATH, 'saved_models', '{}_{}_{}_W_OUT.npy'.format(epochs, time_steps, APPLICATION))
+    #     with open(path, 'wb') as f:
+    #         np.save(f, W_OUT)
         
-        path = os.path.join(PATH, 'saved_models', '{}_{}_{}_h.npy'.format(epochs, time_steps, APPLICATION))
-        with open(path, 'wb') as f:
-            np.save(f, H)
+    #     path = os.path.join(PATH, 'saved_models', '{}_{}_{}_h.npy'.format(epochs, time_steps, APPLICATION))
+    #     with open(path, 'wb') as f:
+    #         np.save(f, H)
 
-        path = os.path.join(PATH, 'saved_models', '{}_{}_{}_hh.npy'.format(epochs, time_steps, APPLICATION))
-        with open(path, 'wb') as f:
-            np.save(f, H_H)
+    #     path = os.path.join(PATH, 'saved_models', '{}_{}_{}_hh.npy'.format(epochs, time_steps, APPLICATION))
+    #     with open(path, 'wb') as f:
+    #         np.save(f, H_H)
 
-        H_H = H_H[-1]
+    #     H_H = H_H[-1]
 
-        ##state = H_H.reshape((1, 28, 1, 28, 1)).max(4).max(2)
-        #state = predict(W, small_image)
-        #state = H_H.reshape((1, 22, 1, 22, 1)).max(4).max(2)
-        #state = state.reshape((1, 14, 1, 14, 1)).max(4).max(2)
+    #     ##state = H_H.reshape((1, 28, 1, 28, 1)).max(4).max(2)
+    #     #state = predict(W, small_image)
+    #     #state = H_H.reshape((1, 22, 1, 22, 1)).max(4).max(2)
+    #     #state = state.reshape((1, 14, 1, 14, 1)).max(4).max(2)
 
-        ##state = np.squeeze(state, axis=0)
-        ##path = os.path.join(PATH, 'plots', '{}_{}_{}_h.png'.format(epochs, time_steps, APPLICATION))
-        ##plt.clf()
-       ## plot_utils.save_image(state, '', '', "Associative activation (H)", path)
-        ##plt.show()
-        x = 1
-        #gen_image(state).show()
+    #     ##state = np.squeeze(state, axis=0)
+    #     ##path = os.path.join(PATH, 'plots', '{}_{}_{}_h.png'.format(epochs, time_steps, APPLICATION))
+    #     ##plt.clf()
+    #    ## plot_utils.save_image(state, '', '', "Associative activation (H)", path)
+    #     ##plt.show()
+    #     x = 1
+    #     #gen_image(state).show()
 
     end_time = time.time()
 
     logging.info("End training {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M')))
     logging.info("Training took {0:.1f}".format(end_time-start_time))
+
+    inference(network, data, y, data_size, batch_size, time_steps, decay_threshold, learning_rate, Wt_LAST)
+
+def inference(network, data, y, data_size, batch_size, time_steps, decay_threshold, learning_rate, Wt_LAST):
+    for i in range(data_size//batch_size):
+        input = data[i*batch_size: (i+1)*batch_size]
+        input = input.flatten()
+
+        label = y[i*batch_size: (i+1)*batch_size]
+        print("---- Input " + str(i))
+        
+        Wt_LAST, network.predict(input, label, time_steps, learning_rate, decay_threshold)
+
+        # Reseting the network timesteps
+        #W_last = W[-1]
+        network.reset(time_steps, Wt_LAST)
 
 def main():
 
@@ -158,15 +178,16 @@ def main():
         data=np.concatenate((data, mat['train'+str(i)]), axis=0)
         y=np.concatenate((y, np.full((mat['train'+str(i)].shape[0]), i)), axis=0)
     
-
     enc = preprocessing.OneHotEncoder()
     enc.fit(y.reshape(-1, 1))
 
+    #TODO: Remove hard coded list of indexes
+    train_indexes = [0, 5923, 12665, 18623, 24754, 30596]
+    
     y = enc.transform(y.reshape(-1, 1)).toarray()
     print(y.shape)
-    data = data[train_indexes]
     y = y[train_indexes]
-
+    data = data[train_indexes]
     data_size = data.shape[0]
 
     data = data/255.0
@@ -174,7 +195,6 @@ def main():
     data_output_size = 14
     bin_size = data_input_size // data_output_size
 
-    #2(0), 20000 (3), 55000 (9)
     network = AssociativeNetwork(args.no_of_units, args.time_steps)
     APPLICATION = 2
     train(network, data, y, data_size, batch_size, args.epochs, args.time_steps, args.lr, decay_threshold, data_output_size, bin_size, APPLICATION)

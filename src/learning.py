@@ -47,11 +47,14 @@ class Learning(Base):
             H_H[decayed_unit_idx] = total_activation
         
         # Activation function
-        H_H = relu(H_H)
+        ##H_H = relu(H_H)
 
         return H_H
 
     def update_weights(self, W, h, learning_rate, directly_activated_units_idxs, decayed_activations_idxs, decayed_activations):
+        
+        W = W.copy()
+        # Update weights
         
         #decayed_direct_activation_idxs = np.argwhere(h > 0.)
         #decayed_direct_activation_idxs= np.squeeze(decayed_direct_activation_idxs, axis=1)

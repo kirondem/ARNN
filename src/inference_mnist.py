@@ -9,6 +9,7 @@ import time
 import numpy as np
 from lib import enums, constants, plot_utils
 from matplotlib import pyplot as plt
+from sklearn import preprocessing
 from models.associative_inference import AssociativeInference
 import seaborn as sns
 
@@ -24,13 +25,13 @@ def get_args_parser():
     parser.add_argument('--env', type=str, default="laptop", help='Enviroment [default: laptop]')
     parser.add_argument('--epochs', default=1, type=int)
     parser.add_argument('--lr', default=0.1, type=float)
-    parser.add_argument('--time_steps', default=1, type=int)
+    parser.add_argument('--time_steps', default=3, type=int)
     parser.add_argument('--no_of_units', default=784, type=int, help='Number of units in the associative network')
     parser.add_argument('--no_of_input_units', default=784, type=int, help='Number of input units')
     
     return parser.parse_args()
 
-def inference(network, data, data_size, batch_size, epochs, time_steps, lr, decay_threshold, APPLICATION):
+def inference(network, data, y, data_size, batch_size, epochs, time_steps, lr, decay_threshold,  APPLICATION):
 
     start_time = time.time()
 
@@ -40,14 +41,8 @@ def inference(network, data, data_size, batch_size, epochs, time_steps, lr, deca
 
         # decay learning rate
         learning_rate = lr * (1 - epoch / epochs)
-
         logging.info('Epoch {}, lr {}'.format( epoch, learning_rate))
-
-        # Randomise the data
-        #data = data[np.random.permutation(data_size),:] # Randomise the data
-
-        data = data[APPLICATION] #2, 20000, 55000
-        data = data.reshape((1, data.shape[0]))
+        #data = data.reshape((1, data.shape[0]))
         
         # Iterate over data.
         for i in range(data_size//batch_size):
@@ -55,8 +50,10 @@ def inference(network, data, data_size, batch_size, epochs, time_steps, lr, deca
             input = data[i*batch_size: (i+1)*batch_size]
             input = input.flatten()
 
-            W, H, H_H, avg_w_list, active_units_list, assoc_active_units_list = network.learn(input, time_steps, learning_rate, decay_threshold)
+            label = y[i*batch_size: (i+1)*batch_size]
+            
 
+            W, W_OUT, H, H_H, avg_w_list, active_units_list, assoc_active_units_list = network.learn(input, label, time_steps, learning_rate, decay_threshold)
 
         x_ticks = [str(i + 1) for i in range(len(avg_w_list))]
         plot_utils.save_plot(avg_w_list, "Avg weight", "Time steps", "Average weight", os.path.join(PATH, 'plots', "avg_w_{}_{}.png".format(time_steps, APPLICATION)), x_ticks)
@@ -78,6 +75,10 @@ def inference(network, data, data_size, batch_size, epochs, time_steps, lr, deca
         path = os.path.join(PATH, 'saved_models', '{}_{}_{}_w.npy'.format(epochs, time_steps, APPLICATION))
         with open(path, 'wb') as f:
             np.save(f, W)
+
+        path = os.path.join(PATH, 'saved_models', '{}_{}_{}_W_OUT.npy'.format(epochs, time_steps, APPLICATION))
+        with open(path, 'wb') as f:
+            np.save(f, W_OUT)
         
         path = os.path.join(PATH, 'saved_models', '{}_{}_{}_h.npy'.format(epochs, time_steps, APPLICATION))
         with open(path, 'wb') as f:
@@ -120,16 +121,27 @@ def main():
     mat = scipy.io.loadmat(os.path.join(PATH, 'data', 'mnist_all.mat'))
     data = np.zeros((0, N))
     y = np.zeros((0), dtype=int)
+    train_indexes= []
+
     for i in range(Nc):
+        startIdx = len(data)
+        train_indexes += list(range(startIdx, startIdx + 1))
         data=np.concatenate((data, mat['train'+str(i)]), axis=0)
         y=np.concatenate((y, np.full((mat['train'+str(i)].shape[0]), i)), axis=0)
     
+    enc = preprocessing.OneHotEncoder()
+    enc.fit(y.reshape(-1, 1))
+
+    y = enc.transform(y.reshape(-1, 1)).toarray()
+    y = y[train_indexes]
+    
+    data = data[train_indexes]
+    data_size = data.shape[0]
     data = data/255.0
 
-    #2(0), 20000 (3), 55000 (9)
     network = AssociativeInference(args.no_of_units, args.time_steps)
     APPLICATION = 2
-    inference(network, data, data_size, batch_size, args.epochs, args.time_steps, args.lr, decay_threshold, APPLICATION)
+    inference(network, data, y, data_size, batch_size, args.epochs, args.time_steps, args.lr, decay_threshold, APPLICATION)
 
 if __name__ == '__main__':
     main()

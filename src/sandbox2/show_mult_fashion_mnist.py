@@ -22,15 +22,14 @@ def display_mult_images(images, titles, rows, cols):
 # ========================================================
 N = 784
 Nc = 10
-mat = scipy.io.loadmat(os.path.join(PATH, '..', 'data', 'mnist_all.mat'))
-data = np.zeros((0, N))
-y_data = np.zeros((0), dtype=int)
-train_indexes= []
-for i in range(Nc):
-    startIdx = len(data)
-    train_indexes += list(range(startIdx, startIdx + 5))
-    data=np.concatenate((data, mat['train'+str(i)]), axis=0)
-    y_data=np.concatenate((y_data, np.full((mat['train'+str(i)].shape[0]), i)), axis=0)
+
+path = os.path.join(PATH, '..', 'data', 'fashion-mnist','labels-idx1-ubyte.npy')
+with open(path, 'rb') as f:
+    y_data = np.load(f)
+
+path = os.path.join(PATH, '..', 'data', 'fashion-mnist','images-idx3-ubyte.npy')
+with open(path, 'rb') as f:
+    data = np.load(f)
 
 images = []
 titles = []
