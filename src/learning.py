@@ -9,6 +9,8 @@ from lib.activation_functions import htan, relu
 import seaborn as sns
 import matplotlib.pylab as plt
 
+from lib.utils import dynamic_lambda
+
 class Learning(Base):
 
     def __init__(self, no_of_units):
@@ -98,7 +100,7 @@ class Learning(Base):
                         h_from = h[from_idx]
                         
                         # 3) Calculate maximum conditioning possible for the US
-                        to_lambda_max = self.dynamic_lambda(h_from, h_to)
+                        to_lambda_max = dynamic_lambda(h_from, h_to)
 
                         v_total = total_direct_activations + total_decayed_activations + total_associative_activations
 
@@ -121,21 +123,6 @@ class Learning(Base):
         #wee_t = self.init.set_max_cutoff_weight(wee_t, cutoff_weights[1])
 
         return W
-
-    def dynamic_lambda(self, h_from, h_to):
-            
-        # Lambda max rule: The maximum weight is set to the maximum weight of the network.
-
-        lambda_max = (h_from * h_to)
-        
-        # TODO: Suppressed 
-        #lambda_max = 1 # - (h_from * h_to)
-
-        #lambda_max = lambda_max if lambda_max > 0 else 1
-
-        
-
-        return lambda_max
 
 
 
