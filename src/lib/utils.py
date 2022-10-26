@@ -1,5 +1,17 @@
 import numpy as np
 
+def dynamic_lambda(h_from, h_to):
+        
+    # Lambda max rule: The maximum weight is set to the maximum weight of the network.
+
+    lambda_max = (h_from * h_to)
+    
+    # TODO: Suppressed 
+    #lambda_max = 1 # - (h_from * h_to)
+
+    #lambda_max = lambda_max if lambda_max > 0 else 1
+    return lambda_max
+
 def decay_activation(h, t, timesteps):
     h = h * (1 - t / timesteps)
     return h
@@ -50,4 +62,19 @@ def generate_white_gaussian_noise(mu, sigma, size):
         noise = np.random.normal(mu, sigma, size)
 
         return np.expand_dims(noise, 1)
+
+
+def concat_images(imga, imgb):
+    """
+    Combines two color image ndarrays side-by-side.
+    """
+    ha,wa = imga.shape[:2]
+    hb,wb = imgb.shape[:2]
+    max_height = np.max([ha, hb])
+    total_width = wa+wb
+    new_img = np.zeros(shape=(max_height, total_width))
+    new_img[:ha,:wa]=imga
+    new_img[:hb,wa:wa+wb]=imgb
+    return new_img
+
 

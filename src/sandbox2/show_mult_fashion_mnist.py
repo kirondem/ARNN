@@ -15,8 +15,15 @@ def display_mult_images(images, titles, rows, cols):
     for idx, img in enumerate(images):  # images is a list
         ax.ravel()[idx].imshow(img,
         cmap=plt.get_cmap('gray_r'))
-        ax.ravel()[idx].set_title(titles[idx])
+        #ax.ravel()[idx].set_title(titles[idx])
+
+    for axis in ax.ravel():
+        axis.set_axis_off()
+
+    #plt.setp(plt.gcf().get_axes(), xticks=[], yticks=[])
+
     plt.tight_layout()
+    
     plt.show()
 
 # ========================================================
@@ -37,7 +44,21 @@ titles = []
 #train_indexes = random.sample(range(0, 60000), 12)
 #print(train_indexes)
 
-train_indexes = [0, 5923, 12665, 18623, 24754, 30596]
+train_indexes = [3, 6923, 12665, 25623, 30596, 50598]
+
+
+train_indexes = np.where(y_data == 5)[0]
+
+
+train_indexes = train_indexes[1:7]
+
+print(train_indexes)
+
+#train_indexes = [35,  57,  99, 100]
+
+# array([ 35,  57,  99, 100], dtype=int64) handbags
+
+
 
 for index in train_indexes:  # 12 images
     images.append(data[index].reshape(28,28))
