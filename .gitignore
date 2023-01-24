@@ -13,6 +13,7 @@ src/data/*
 src/data/MNIST/raw/train-images-idx3-ubyte.gz
 src/arrt1d/*
 src/saved_models/*
+src/saved_weights/*
 src/pre_trained_models/*.pth
 src/pre_trained_models/*.zip
 src/models/*.pth

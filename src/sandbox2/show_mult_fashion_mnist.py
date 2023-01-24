@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import scipy.io
+import cv2
 
 # ========================================================
 
@@ -47,23 +48,27 @@ titles = []
 train_indexes = [3, 6923, 12665, 25623, 30596, 50598]
 
 
-train_indexes = np.where(y_data == 5)[0]
+train_indexes = np.where(y_data == 1)[0]
 
 
-train_indexes = train_indexes[1:7]
+train_indexes = train_indexes[1:5]
 
 print(train_indexes)
 
 #train_indexes = [35,  57,  99, 100]
 
-# array([ 35,  57,  99, 100], dtype=int64) handbags
-
+# array([ 35,  57,  99, 100], dtype=int64) Dresses
 
 
 for index in train_indexes:  # 12 images
-    images.append(data[index].reshape(28,28))
+    img = data[index].reshape(28,28)
+    
+    resized_img = cv2.resize(img, (18, 18))
+
+    images.append(resized_img)
+
     titles.append(str(y_data[index]))  # title is digit label
   
-display_mult_images(images, titles, 2, 3)
+display_mult_images(images, titles, 2, 2)
 
 print("\nEnd demo ")

@@ -1,5 +1,17 @@
 import os
+import numpy as np
 import matplotlib.pyplot as plt
+
+def plot_W(W):
+    plt.clf()
+    plt.imshow(W, interpolation='nearest')
+    plt.savefig('W.png')
+
+def plot_H(H):
+    state = H.reshape((1, 28, 1, 28, 1)).max(4).max(2)
+    state = np.squeeze(state, axis=0)
+    plt.imshow(state, interpolation='nearest')
+    plt.show()
 
 def save_plot(data, ylabel, xlabel, title, path, xticks=None, yticks=None):
     plt.clf()
@@ -45,5 +57,23 @@ def save_plot_H(H, ylabel, xlabel, title, path, time_steps):
         idx += 1
     
     plt.clf()
+
+
+def display_mult_images(images, titles, rows, cols):
+    
+    figure, ax = plt.subplots(rows,cols)  # array of axes
+
+    for idx, img in enumerate(images):  # images is a list
+        ax.ravel()[idx].imshow(img, cmap=plt.get_cmap('gray_r'))
+        ax.ravel()[idx].set_title(titles[idx])
+
+    for axis in ax.ravel():
+        axis.set_axis_off()
+
+    #plt.setp(plt.gcf().get_axes(), xticks=[], yticks=[])
+
+    plt.tight_layout()
+    
+    plt.show()
         
     

@@ -1,16 +1,17 @@
+import os
 import numpy as np
 
 def dynamic_lambda(h_from, h_to):
         
     # Lambda max rule: The maximum weight is set to the maximum weight of the network.
 
-    lambda_max = (h_from * h_to)
+    return (h_from * h_to)
     
-    # TODO: Suppressed 
-    #lambda_max = 1 # - (h_from * h_to)
+    # # TODO: Suppressed 
+    # #lambda_max = 1 # - (h_from * h_to)
 
-    #lambda_max = lambda_max if lambda_max > 0 else 1
-    return lambda_max
+    # #lambda_max = lambda_max if lambda_max > 0 else 1
+    # return lambda_max
 
 def decay_activation(h, t, timesteps):
     h = h * (1 - t / timesteps)
@@ -77,4 +78,20 @@ def concat_images(imga, imgb):
     new_img[:hb,wa:wa+wb]=imgb
     return new_img
 
+def save_parameters(PATH, epochs, time_steps, W, W_OUT, H, H_H):
 
+    path = os.path.join(PATH, 'saved_models', '{}_{}_{}_w.npy'.format(epochs, time_steps))
+    with open(path, 'wb') as f:
+        np.save(f, W)
+
+    path = os.path.join(PATH, 'saved_models', '{}_{}_{}_W_OUT.npy'.format(epochs, time_steps))
+    with open(path, 'wb') as f:
+        np.save(f, W_OUT)
+
+    path = os.path.join(PATH, 'saved_models', '{}_{}_{}_h.npy'.format(epochs, time_steps))
+    with open(path, 'wb') as f:
+        np.save(f, H)
+
+    path = os.path.join(PATH, 'saved_models', '{}_{}_{}_hh.npy'.format(epochs, time_steps))
+    with open(path, 'wb') as f:
+        np.save(f, H_H)

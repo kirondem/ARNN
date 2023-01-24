@@ -1,17 +1,16 @@
 import logging
 import argparse
 import datetime
+from operator import mod
 import os
+import random
 import sys
 sys.path.append(os.getcwd())
-import scipy.io
 import time
 import numpy as np
-from lib import enums, constants, plot_utils
-from matplotlib import pyplot as plt
+from lib import enums, constants, utils, plot_utils
 from models.associative_network import AssociativeNetwork
-import seaborn as sns
-from lib.utils import dynamic_lambda
+from lib.utils import concat_images, dynamic_lambda
 
 LOG_LEVEL = logging.getLevelName(constants.lOG_LEVEL)
 logging.basicConfig(level=LOG_LEVEL)
@@ -25,7 +24,7 @@ def get_args_parser():
     parser.add_argument('--env', type=str, default="laptop", help='Enviroment [default: laptop]')
     parser.add_argument('--epochs', default=1, type=int)
     parser.add_argument('--lr', default=0.1, type=float)
-    parser.add_argument('--time_steps', default=2, type=int)
+    parser.add_argument('--time_steps', default=4, type=int)
     parser.add_argument('--no_of_units', default=784, type=int, help='Number of units in the associative network')
     parser.add_argument('--no_of_input_units', default=784, type=int, help='Number of input units')
     
@@ -45,7 +44,6 @@ def associate_old(network, data, y, data_size, batch_size, time_steps, decay_thr
         #W_last = W[-1]
         network.reset(time_steps, Wt_LAST)
 
-
 def train(network, data, data_size, batch_size, epochs, time_steps, lr, decay_threshold):
 
     start_time = time.time()
@@ -62,13 +60,13 @@ def train(network, data, data_size, batch_size, epochs, time_steps, lr, decay_th
         # Iterate over data.
         for i in range(data_size//batch_size):
             
-            input = data[i*batch_size: (i+1)*batch_size]
-            input = input.flatten()
+            input = data[i*batch_size: (i+1)*batch_size].flatten()
             
             W, Wt_LAST, H, H_H = network.learn(input, time_steps, learning_rate, decay_threshold)
 
             # Reseting the network timesteps
-            network.reset(time_steps, Wt_LAST)
+            network.reset(time_steps)
+            network.init_weights(Wt_LAST)
 
         H_H = H_H[-1]
 
@@ -122,17 +120,11 @@ def associate_inputs(W_ASSOC, learning_rate, input, target):
             W_ASSOC[to_idx][from_idx] = W_ASSOC[to_idx, from_idx] + d_w
  
     return W_ASSOC
-    
 
-def associate(network1, network2, data1, data2, data_size, batch_size, epochs, time_steps, lr, decay_threshold):
+def associate(W_A, network1, network2, data1, data2, data_size, batch_size, epochs, time_steps, lr, decay_threshold):
 
     start_time = time.time()
     logging.info("Start associate {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M')))
-
-    no_of_output_units = network2.no_of_units
-    no_of_units = network1.no_of_units
-
-    W_ASSOC = np.zeros((no_of_output_units, no_of_units)) 
 
     for epoch in range(epochs):
 
@@ -146,97 +138,129 @@ def associate(network1, network2, data1, data2, data_size, batch_size, epochs, t
             
             input = data1[i*batch_size: (i+1)*batch_size].flatten()
             W, Wt_LAST1, H, H_H1 = network1.learn(input, time_steps, learning_rate, decay_threshold)
-            network1.reset(time_steps, Wt_LAST1)
 
             input = data2[i*batch_size: (i+1)*batch_size].flatten()
             W, Wt_LAST2, H, H_H2 = network2.learn(input, time_steps, learning_rate, decay_threshold)
-            network2.reset(time_steps, Wt_LAST2)
 
-            W_ASSOC = associate_inputs(W_ASSOC, learning_rate, H_H1[-1], H_H2[-1])
+            W_A = associate_inputs(W_A, learning_rate, H_H1[-1], H_H2[-1])
 
-    
+            network1.reset(time_steps)
+            network1.init_weights(Wt_LAST1)
+
+            network2.reset(time_steps)
+            network2.init_weights(Wt_LAST2)
+            
     end_time = time.time()
 
     logging.info("End associate {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M')))
     logging.info("associate took {0:.1f}".format(end_time-start_time))
 
-    return W_ASSOC
+    return W_A
+
+def save_weights(Path, name, data, trials, epochs, time_steps):
+    path = os.path.join(Path, 'saved_weights', '{}_{}_{}_{}.npy'.format(trials, epochs, time_steps, name))
+    with open(path, 'wb') as f:
+        np.save(f, data)
 
 def main():
 
     args = get_args_parser()
-
-    Nc = 10
+    trials = 8
     N = 784
     data_size = 1 # 60000
     batch_size = 1
     decay_threshold = 0.1
 
-    mat = scipy.io.loadmat(os.path.join(PATH, 'data', 'mnist_all.mat'))
-    data_mnist = np.zeros((0, N))
-    y = np.zeros((0), dtype=int)
-    train_indexes= []
-
-    for i in range(Nc):
-        startIdx = len(data_mnist)
-        train_indexes += list(range(startIdx, startIdx + 1))
-        data_mnist=np.concatenate((data_mnist, mat['train'+str(i)]), axis=0)
-        y=np.concatenate((y, np.full((mat['train'+str(i)].shape[0]), i)), axis=0)
-
     #Read in fashion mnist data
     X_fashion_mnist_data = np.zeros((0, N))
-    y_fashion_mnist_data = np.zeros((0, N))
 
     path = os.path.join(PATH, 'data', 'fashion-mnist','images-idx3-ubyte.npy')
     with open(path, 'rb') as f:
         X_fashion_mnist_data = np.load(f)
     
-    path = os.path.join(PATH, 'data', 'fashion-mnist','labels-idx1-ubyte.npy')
-    with open(path, 'rb') as f:
-        y_fashion_mnist_data = np.load(f)
+    # y_fashion_mnist_data = np.zeros((0, N))
+    # path = os.path.join(PATH, 'data', 'fashion-mnist','labels-idx1-ubyte.npy')
+    # with open(path, 'rb') as f:
+    #     y_fashion_mnist_data = np.load(f)
 
-    #TODO: Remove hard coded list of indexes
-    train_indexes = [0, 5923, 12665, 25623, 30596, 50596]
-    train_indexes = [0]
-    # mnist labels 0, 1, 2, 4, 5, 8     #Fashion labels 9, 3, 4, 5, 8, 4
+    # #Fashion labels 9, 3, 4, 5, 8, 4
 
+    handbags_indexes = [35, 57, 99, 100]
+    #handbags_indexes = [35]
 
-    train_even_indexes = [12665, 25623, 39000, 50596] # 2, 4, 6, 8
-    train_odd_indexes = [5923, 20000, 30596, 46000] # 1, 3, 5, 7
     sandles_indexes = [9, 12, 13, 30 ]
-    handbag_indexes = [3, 5, 8, 10]
+    #sandles_indexes = [9]
 
-    ##data_mnist = data_mnist[train_indexes]
-    ##data_size = data_mnist.shape[0]
-    ##data_mnist = data_mnist/255.0
-
-    data_mnist_even = data_mnist[train_even_indexes]
-    data_mnist_even = data_mnist_even.shape[0]
-    data_mnist_even = data_mnist_even/255.0
-
-    data_mnist_odd = data_mnist[train_odd_indexes]
-    data_mnist_odd = data_mnist_odd.shape[0]
-    data_mnist_odd = data_mnist_odd/255.0
-
-    X_fashion_mnist_data = X_fashion_mnist_data[sandles_indexes]
-    X_fashion_mnist_data = X_fashion_mnist_data/255.0
+    dresses_indexes = [1064, 1077, 1093, 1108, 1115, 1120]
+    #dresses_indexes = [1064]
+    
+    X_fashion_mnist_data_handbags = X_fashion_mnist_data[handbags_indexes] / 255.0
+    X_fashion_mnist_data_dresses = X_fashion_mnist_data[dresses_indexes] / 255.0
+    X_fashion_mnist_data_sandles = X_fashion_mnist_data[sandles_indexes] / 255.0
 
     #Nothing image
     nothing_image = np.zeros((28,28))
-    #img = np.zeros([28,28],dtype=np.uint8)
-    
 
-    network_D = AssociativeNetwork(args.no_of_units, args.time_steps)
-    W, Wt_LAST, H, H_H = train(network_D, data_mnist, data_size, batch_size, args.epochs, args.time_steps, args.lr, decay_threshold)
-    Wt_LAST_D = Wt_LAST.copy()
-    
-    network_F = AssociativeNetwork(args.no_of_units, args.time_steps)
-    W, Wt_LAST, H, H_H = train(network_F, X_fashion_mnist_data, data_size, batch_size, args.epochs, args.time_steps, args.lr, decay_threshold)
-    Wt_LAST_F = Wt_LAST.copy()
+    no_of_units_network_1 = (28 * 28) * 2
+    no_of_units_network_2 = 28 * 28
 
-    network_D.reset(args.time_steps, Wt_LAST_D)
-    network_F.reset(args.time_steps, Wt_LAST_F)
-    associate(network_D, network_F, data_mnist, X_fashion_mnist_data, data_size, batch_size, args.epochs, args.time_steps, args.lr, decay_threshold)
+    W_A = np.zeros((no_of_units_network_2, no_of_units_network_1))
+
+    network1 = AssociativeNetwork(no_of_units_network_1, args.time_steps)
+    network2 = AssociativeNetwork(no_of_units_network_2, args.time_steps)
+
+    for i in range(trials):
+        logging.info("🚀 Trial: {} 🚀".format(i+1))
+        if i % 2 == 0:
+            # Handbags -> sandles
+            img1 = random.sample(list(X_fashion_mnist_data_handbags), 1)[0]
+            img2 = nothing_image
+            s1 = concat_images(img1.reshape(28,28), img2)
+            s2 = random.sample(list(X_fashion_mnist_data_sandles), 1)[0]
+        else:
+            # Handbags + dresses -> NOTHING
+            img1 = random.sample(list(X_fashion_mnist_data_handbags), 1)[0]
+            img2 = random.sample(list(X_fashion_mnist_data_dresses),1 )[0]
+            s1 = concat_images(img1.reshape(28,28), img2.reshape(28,28))
+            s2 = nothing_image
+
+        #plot_utils.display_mult_images([s1, s1], ['',  ''], 1, 2)
+        
+        s1 = s1.flatten()
+        s1 = s1.reshape((1, s1.shape[0]))
+        s2 = s2.flatten()
+        s2 = s2.reshape((1, s2.shape[0]))
+
+        logging.info("--Training network 1 --")
+        _, Wt_LAST1, H1, H_H1 = train(network1, s1, data_size, batch_size, args.epochs, args.time_steps, args.lr, decay_threshold)
+        Wt_LAST1 = Wt_LAST1.copy()
+
+        #plot_utils.plot_H(H1[-1]) plot_utils.plot_H(H_H1)
+
+        logging.info("--Training network 2--")
+        _, Wt_LAST2, H2, H_H2 = train(network2, s2, data_size, batch_size, args.epochs, args.time_steps, args.lr, decay_threshold)
+        Wt_LAST2 = Wt_LAST2.copy()
+
+        #plot_utils.plot_H(H2[-1])
+        #plot_utils.plot_H(H_H2)
+
+        network1.reset(args.time_steps)
+        network1.init_weights(Wt_LAST1)
+
+        network2.reset(args.time_steps)
+        network2.init_weights(Wt_LAST2)
+
+        logging.info("Training associative network")
+
+        #for i in range(trials):
+        #learning_rate = args.lr * (1 - i / trials)
+        
+        W_A = associate_inputs(W_A, args.lr, H_H1, H_H2)
+    
+    save_weights(PATH, 'Wt_LAST1', Wt_LAST1, trials, args.epochs, args.time_steps)
+    save_weights(PATH, 'Wt_LAST2', Wt_LAST2, trials, args.epochs, args.time_steps)
+    save_weights(PATH, 'W_A', W_A, trials, args.epochs, args.time_steps)
+
     x = 1
 
 if __name__ == '__main__':

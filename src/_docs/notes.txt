@@ -27,6 +27,7 @@ flight env activate ${HOME}/pytorch_env/bin/activate
 
 pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --user scipy
 pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --user Pillow
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --user opencv-python
 
 slurm additional Python packages
 
@@ -47,4 +48,11 @@ To run batch script
 source /opt/flight/etc/setup.sh
 flight env activate gridware
 
+/users/adbg238/Work/PhD/src/batch_jobs
+sbatch train.sh
+sbatch test_CI_summation.sh
 
+
+dos2unix train_CI_summation.sh
+
+sbatch train_CI_summation.sh
