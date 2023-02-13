@@ -8,6 +8,7 @@ import sys
 import cv2
 
 sys.path.append(os.getcwd())
+
 import time
 import numpy as np
 from lib import enums, constants, utils, plot_utils
@@ -33,12 +34,7 @@ def get_args_parser():
     
     return parser.parse_args()
 
-
 def train(network, data, data_size, batch_size, epochs, time_steps, lr, decay_threshold):
-
-    start_time = time.time()
-
-    logging.info("Start training {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M')))
 
     for epoch in range(epochs):
 
@@ -59,12 +55,6 @@ def train(network, data, data_size, batch_size, epochs, time_steps, lr, decay_th
             network.init_weights(Wt_LAST)
 
         H_H = H_H[-1]
-
-
-    end_time = time.time()
-
-    logging.info("End training {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M')))
-    logging.info("Training took {0:.1f}".format(end_time-start_time))
 
     return W, Wt_LAST, H, H_H
 
@@ -132,8 +122,8 @@ def associate(W_A, network1, network2, data1, data2, data_size, batch_size, epoc
 
     return W_A
 
-def save_weights(Path, name, data, trials, epochs, time_steps):
-    path = os.path.join(Path, 'saved_weights', '{}_{}_{}_{}.npy'.format(trials, epochs, time_steps, name))
+def save_weights(Path, name, data, trials, epochs, time_steps, network_type):
+    path = os.path.join(Path, 'saved_weights', '{}_{}_{}_{}_{}.npy'.format(trials, epochs, time_steps, name, network_type))
     with open(path, 'wb') as f:
         np.save(f, data)
 
@@ -154,6 +144,7 @@ def train_all(network1, network_assoc, s1 , s2, data_size, batch_size, args, dec
     assoc_input = assoc_input.reshape((1, assoc_input.shape[0]))
 
     # Pass through an Relu activation function
+    
     assoc_input = relu(assoc_input)
 
     logging.info("--Training assoc network H_H1 + H_H2")
@@ -172,7 +163,6 @@ def train_all(network1, network_assoc, s1 , s2, data_size, batch_size, args, dec
 
     return Wt_LAST, Wt_LAST_ASSOC 
 
-
 def main():
 
     args = get_args_parser()
@@ -181,9 +171,10 @@ def main():
     data_size = 1 # 60000
     batch_size = 1
     decay_threshold = 0.1
+    network_type = 'dynamic_lambda'
 
     #Read in fashion mnist data
-    resized_image_dim = 18
+    resized_image_dim = 15
     X_fashion_mnist_data = np.zeros((0, N))
 
     path = os.path.join(PATH, 'data', 'fashion-mnist','images-idx3-ubyte.npy')
@@ -195,20 +186,20 @@ def main():
     # with open(path, 'rb') as f:
     #     y_fashion_mnist_data = np.load(f)
 
-    # #Fashion labels 9, 3, 4, 5, 8, 4
+    # Fashion labels 9, 3, 4, 5, 8, 4
 
-    handbags_indexes = [35] # [35, 57, 99, 100]
-    
-    #handbags_indexes = [35]
+    #handbags_indexes = [35, 57, 99, 100]
+    handbags_indexes = [35]
 
-    sandles_indexes = [9] # [9, 12, 13, 30 ]
-    #sandles_indexes = [9]
+    #sandles_indexes = [9, 12, 13, 30 ]
+    sandles_indexes = [9]
 
-    dresses_indexes = [1064] #[1064, 1077, 1093, 1108, 1115]
-    #dresses_indexes = [1064]
+    #dresses_indexes = [1064, 1077, 1093, 1108, 1115, 1120]
+    dresses_indexes = [1064]
 
     #Trousers indexes
-    trousers_indexes = [21] #[21, 38, 69, 71]
+    #trousers_indexes = [21, 38, 69, 71]
+    trousers_indexes = [21]
     
     
     X_fashion_mnist_data_handbags = X_fashion_mnist_data[handbags_indexes] / 255.0
@@ -225,6 +216,10 @@ def main():
 
     network1 = AssociativeNetwork(no_of_units_network_1, args.time_steps)
     network_assoc = AssociativeNetwork(no_of_units_network_1 * 2 , args.time_steps)
+
+    start_time = time.time()
+
+    logging.info("Start training {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M')))
 
     for i in range(trials):
         logging.info("🚀 Trial: {} 🚀".format(i+1))
@@ -277,9 +272,13 @@ def main():
         s2 = s2.reshape((1, s2.shape[0]))
         Wt_LAST, Wt_LAST_ASSOC = train_all(network1, network_assoc, s2, s2, data_size, batch_size, args, decay_threshold)
 
+        save_weights(PATH, 'Wt_LAST1', Wt_LAST, trials, args.epochs, args.time_steps, network_type)
+        save_weights(PATH, 'Wt_LAST_ASSOC', Wt_LAST_ASSOC, trials, args.epochs, args.time_steps, network_type)
 
-    save_weights(PATH, 'Wt_LAST1', Wt_LAST, trials, args.epochs, args.time_steps)
-    save_weights(PATH, 'Wt_LAST_ASSOC', Wt_LAST_ASSOC, trials, args.epochs, args.time_steps)
+    end_time = time.time()
+
+    logging.info("End training {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M')))
+    logging.info("Training took {0:.1f}".format(end_time-start_time))
 
     x = 1
 

@@ -18,7 +18,7 @@ sbatch train_mnist.sh
 https://www.vanderbilt.edu/accre/documentation/python/
 
 -Create env
-[bob@gw343 run1]$ python -m venv mda
+[bob@gw343 run1]$ python -m venv t-rec
 
 load en
 [bob@gw343 run1]$ . pytorch_env/bin/activate
@@ -28,8 +28,13 @@ flight env activate ${HOME}/pytorch_env/bin/activate
 pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --user scipy
 pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --user Pillow
 pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --user opencv-python
-
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --user https://files.pythonhosted.org/packages/e2/c0/16380a976104cfa3801f9fe6e7b786f01703c4a65cde259892477858c3e8/torchrec-0.3.2-py39-none-any.whl
+pip install torchrec
 slurm additional Python packages
+
+
+pip2 install torchrec_nightly
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --user torchrec
 
 
 
@@ -48,7 +53,7 @@ To run batch script
 source /opt/flight/etc/setup.sh
 flight env activate gridware
 
-/users/adbg238/Work/PhD/src/batch_jobs
+cd /users/adbg238/Work/PhD/src/batch_jobs
 sbatch train.sh
 sbatch test_CI_summation.sh
 
@@ -56,3 +61,25 @@ sbatch test_CI_summation.sh
 dos2unix train_CI_summation.sh
 
 sbatch train_CI_summation.sh
+
+
+
+https://cityuni.service-now.com/sp?sys_kb_id=5779b7581bea19d0f82d9828b04bcb62&id=kb_article_view&sysparm_rank=8&sysparm_tsqueryId=040607501b05ed906a7effb7d34bcbd2
+
+Python 3.11.2
+
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --user torch torchvision
+
+
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --global http.sslVerify false numpy 
+
+
+pip2 install gensim config --global http.sslVerify false
+
+
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128  --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org pip setuptools
+
+pip install --trusted-host pypi.python.org linkchecker
+
+
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128  numpy config --global http.sslVerify false

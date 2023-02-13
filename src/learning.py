@@ -10,7 +10,7 @@ from lib.activation_functions import htan, relu
 import matplotlib
 import matplotlib.pylab as plt
 
-from lib.utils import dynamic_lambda
+from lib.utils import dynamic_lambda, lambda_US_magnitude
 
 LOG_LEVEL = logging.getLevelName(constants.lOG_LEVEL)
 logging.basicConfig(level=LOG_LEVEL)
@@ -104,8 +104,9 @@ class Learning(Base):
                         
                         # 3) Calculate maximum conditioning possible for the US
                         to_lambda_max = dynamic_lambda(h_from, h_to)
+                        #to_lambda_max = lambda_US_magnitude(h_to)
 
-                        d_w = learning_rate * h_from * (to_lambda_max * h_to - (v_total))
+                        d_w = learning_rate * h_from * ((to_lambda_max * h_to) - v_total)
 
                         # print("lambda max:", to_lambda_max)
                         # print("v_total:", v_total)

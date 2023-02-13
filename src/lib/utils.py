@@ -13,6 +13,16 @@ def dynamic_lambda(h_from, h_to):
     # #lambda_max = lambda_max if lambda_max > 0 else 1
     # return lambda_max
 
+def lambda_US_magnitude(h_to):
+    # Determined by the magnitude of the US
+    return (h_to)
+
+def magnitude(v):
+    return np.sqrt(np.sum(np.square(v)))
+
+def sum_vector(x): 
+    return sum(x)
+
 def decay_activation(h, t, timesteps):
     h = h * (1 - t / timesteps)
     return h

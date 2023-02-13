@@ -5,7 +5,7 @@
 #SBATCH --partition=nodes                    # Select the correct partition. 
 #SBATCH --nodes=1                            # Run on 1 nodes (each node has 48 cores)
 #SBATCH --ntasks-per-node=4                  # Use 8 cores, most of the procesing happens on the GPU
-#SBATCH --time=24:00:00                      # Expected ammount of time to Rrun Time limit hrs:min:sec
+#SBATCH --time=48:00:00                      # Expected ammount of time to Rrun Time limit hrs:min:sec
 #SBATCH --mem=1GB                            # Expected memory usage (0 means use all available memory)
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=mpagi.kironde@city.ac.uk
