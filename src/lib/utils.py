@@ -17,6 +17,10 @@ def lambda_US_magnitude(h_to):
     # Determined by the magnitude of the US
     return (h_to)
 
+def lambda_set_to_1(h_to):
+    # Determined by the magnitude of the US
+    return (1)
+
 def magnitude(v):
     return np.sqrt(np.sum(np.square(v)))
 

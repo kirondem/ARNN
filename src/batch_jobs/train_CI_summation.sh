@@ -4,7 +4,8 @@
 #SBATCH --job-name train_ANN                 # Job name
 #SBATCH --partition=nodes                    # Select the correct partition. 
 #SBATCH --nodes=1                            # Run on 1 nodes (each node has 48 cores)
-#SBATCH --ntasks-per-node=4                  # Use 8 cores, most of the procesing happens on the GPU
+#SBATCH --ntasks-per-node=1                  # Run one task
+#SBATCH --cpus-per-task=1                    # Use 4 cores, most of the procesing happens on the GPU     
 #SBATCH --time=48:00:00                      # Expected ammount of time to Rrun Time limit hrs:min:sec
 #SBATCH --mem=1GB                            # Expected memory usage (0 means use all available memory)
 #SBATCH --mail-type=ALL

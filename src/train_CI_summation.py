@@ -28,7 +28,7 @@ def get_args_parser():
     parser.add_argument('--env', type=str, default="laptop", help='Enviroment [default: laptop]')
     parser.add_argument('--epochs', default=1, type=int)
     parser.add_argument('--lr', default=0.1, type=float)
-    parser.add_argument('--time_steps', default=5, type=int)
+    parser.add_argument('--time_steps', default=4, type=int)
     parser.add_argument('--no_of_units', default=784, type=int, help='Number of units in the associative network')
     parser.add_argument('--no_of_input_units', default=784, type=int, help='Number of input units')
     
@@ -144,7 +144,6 @@ def train_all(network1, network_assoc, s1 , s2, data_size, batch_size, args, dec
     assoc_input = assoc_input.reshape((1, assoc_input.shape[0]))
 
     # Pass through an Relu activation function
-    
     assoc_input = relu(assoc_input)
 
     logging.info("--Training assoc network H_H1 + H_H2")
@@ -166,12 +165,12 @@ def train_all(network1, network_assoc, s1 , s2, data_size, batch_size, args, dec
 def main():
 
     args = get_args_parser()
-    trials = 50
+    trials = 1
     N = 784
     data_size = 1 # 60000
     batch_size = 1
     decay_threshold = 0.1
-    network_type = 'dynamic_lambda'
+    network_type = enums.ANNNetworkType.DynamicLambda.value
 
     #Read in fashion mnist data
     resized_image_dim = 15

@@ -1,4 +1,6 @@
 import logging
+import queue
+import threading
 import time
 import numpy as np
 import numpy as np
@@ -63,8 +65,16 @@ class Learning(Base):
 
         return H_H
 
+    
+    def total_activations(W, to_idx, h, idxs, out_queue1):
+        total = sum([W[idx][to_idx] * h[idx] for idx in idxs])
+        out_queue1.put(total)
+        #print("All done in the new thread:", threading.current_thread().name)
+
     def update_weights(self, t, W, h, h_h, learning_rate, directly_activated_units_idxs, decayed_activations_idxs, decayed_activations):
         
+        
+
         W = W.copy()
  
         unique_decayed_activations_idxs = [i for i in decayed_activations_idxs if i not in directly_activated_units_idxs]
@@ -87,16 +97,33 @@ class Learning(Base):
                         # 1) Calculate total direct activations
                         
                         total_direct_activations = sum([W[idx][to_idx] * h[idx] for idx in directly_activated_units_idxs])
-                        
+                        ###out_queue1=queue.Queue()
+                        ###t1=threading.Thread(target=total_activations, args=(W, to_idx, h, directly_activated_units_idxs, out_queue1))
+                        ###t1.start()
+                        ###total_direct_activations = out_queue1.get()
+
                         #if t > 0: 
                         # 2) Calculate total decayed activations
                         total_decayed_activations = sum([W[idx][to_idx] * decayed_activations[idx] for idx in unique_decayed_activations_idxs])
                         
+                        ###out_queue2=queue.Queue()
+                        ###t2=threading.Thread(target=total_activations, args=(W, to_idx, decayed_activations, unique_decayed_activations_idxs, out_queue2))
+                        ###t2.start()
+                        ###total_decayed_activations = out_queue2.get()
+
                         # 3) Calculate total associative activations
                         total_associative_activations = sum([W[idx][to_idx] * h_h[idx] for idx in decayed_activations_idxs])
-                        
                         #print(total_decayed_activations, ':', total_associative_activations)
+
+                        ###out_queue3=queue.Queue()
+                        ###t3=threading.Thread(target=total_activations, args=(W, to_idx, h_h, decayed_activations_idxs, out_queue3))
+                        ###t3.start()
+                        ###total_associative_activations = out_queue3.get()
                         
+                        ###t1.join()
+                        ###t2.join()
+                        ###t3.join()
+
                         v_total = total_direct_activations + total_decayed_activations + total_associative_activations
 
                         h_to = h[to_idx]

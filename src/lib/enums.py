@@ -30,5 +30,8 @@ class FashionMNISTCategory(Enum):
     Bag = 8
     Ankle_boot = 9
 
+class ANNNetworkType(Enum):
+    DynamicLambda = 'dynamic_lambda'
+    MagnitudeLamdaRelu = 'magnitude_lamda_relu'
 
 

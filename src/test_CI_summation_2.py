@@ -25,7 +25,7 @@ def get_args_parser():
     parser = argparse.ArgumentParser('Train associative network', add_help=False)
     parser.add_argument('--env', type=str, default="laptop", help='Enviroment [default: laptop]')
     parser.add_argument('--epochs', default=1, type=int)
-    parser.add_argument('--lr', default=0.1, type=float)
+    parser.add_argument('--lr', default=0.001, type=float)
     parser.add_argument('--time_steps', default=5, type=int)
     parser.add_argument('--no_of_units', default=784, type=int, help='Number of units in the associative network')
     parser.add_argument('--no_of_input_units', default=784, type=int, help='Number of input units')
@@ -84,13 +84,13 @@ def main():
     #TODO: REMOVE
     #args.time_steps = 2
 
-    trials = 50
+    trials = 20
     N = 784
     data_size = 1 # 60000
     batch_size = 1
     decay_threshold = 0.1
 
-    network_type = 'magnitude_lamda_relu'
+    network_type = enums.ANNNetworkType.DynamicLambda.value
 
     #Read in fashion mnist data
     resized_image_dim = 15
