@@ -94,35 +94,15 @@ class Learning(Base):
                 for to_idx in directly_activated_units_idxs:
                     if from_idx != to_idx:
                         
-                        # 1) Calculate total direct activations
-                        
+                        # 1) Calculate total direct activations                        
                         total_direct_activations = sum([W[idx][to_idx] * h[idx] for idx in directly_activated_units_idxs])
-                        ###out_queue1=queue.Queue()
-                        ###t1=threading.Thread(target=total_activations, args=(W, to_idx, h, directly_activated_units_idxs, out_queue1))
-                        ###t1.start()
-                        ###total_direct_activations = out_queue1.get()
 
-                        #if t > 0: 
                         # 2) Calculate total decayed activations
                         total_decayed_activations = sum([W[idx][to_idx] * decayed_activations[idx] for idx in unique_decayed_activations_idxs])
-                        
-                        ###out_queue2=queue.Queue()
-                        ###t2=threading.Thread(target=total_activations, args=(W, to_idx, decayed_activations, unique_decayed_activations_idxs, out_queue2))
-                        ###t2.start()
-                        ###total_decayed_activations = out_queue2.get()
 
                         # 3) Calculate total associative activations
                         total_associative_activations = sum([W[idx][to_idx] * h_h[idx] for idx in decayed_activations_idxs])
                         #print(total_decayed_activations, ':', total_associative_activations)
-
-                        ###out_queue3=queue.Queue()
-                        ###t3=threading.Thread(target=total_activations, args=(W, to_idx, h_h, decayed_activations_idxs, out_queue3))
-                        ###t3.start()
-                        ###total_associative_activations = out_queue3.get()
-                        
-                        ###t1.join()
-                        ###t2.join()
-                        ###t3.join()
 
                         v_total = total_direct_activations + total_decayed_activations + total_associative_activations
 
