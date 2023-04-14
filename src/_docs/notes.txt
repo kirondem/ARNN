@@ -54,13 +54,18 @@ source /opt/flight/etc/setup.sh
 flight env activate gridware
 
 cd /users/adbg238/Work/PhD/src/batch_jobs
+sbatch train_CI_summation.sh
+
+sbatch train_CI_summation_shapes.sh
+sbatch train_CI_summation_shapes_sep.sh
+
 sbatch train.sh
 sbatch test_CI_summation.sh
 
 
-dos2unix train_CI_summation.sh
 
-sbatch train_CI_summation.sh
+dos2unix train_CI_summation_shapes.sh
+dos2unix train_CI_summation_shapes_sep.sh
 
 
 

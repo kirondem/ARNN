@@ -87,6 +87,7 @@ class AssociativeNetwork(Base):
 
     def learn(self, x, time_steps, learning_rate, decay_threshold):
 
+        avg_w_list = []
 
         for t in range(time_steps):
 
@@ -111,6 +112,17 @@ class AssociativeNetwork(Base):
                 decayed_activations = decayed_activations.copy()
                 self.DECAYED_ACTIVATIONS[t + 1] = decayed_activations
                 self.H[t + 1] = decayed_activations
+
+            avg_w_list.append(mean(W.mean(axis=0)))
+
+        #save_plot_H(self.H, "Activation", "Time steps", "H Activations", os.path.join('plots', 'H'), time_steps)
+        
+        #save_plot_H(self.H_H, "Activation", "Time steps", "H_H Activations", os.path.join('plots', 'H_H'), time_steps)
+
+        x_ticks = [str(i + 1) for i in range(len(avg_w_list))]
+        
+        #save_plot(avg_w_list, "Avg weight", "Time steps", "Average weight", os.path.join('plots', "avg_w_{}.png".format(time_steps)), x_ticks)
+
 
         return self.W, W, self.H, self.H_H
 

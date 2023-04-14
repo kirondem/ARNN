@@ -17,12 +17,15 @@ def lambda_US_magnitude(h_to):
     # Determined by the magnitude of the US
     return (h_to)
 
-def lambda_set_to_1(h_to):
+def lambda_set_to_1():
     # Determined by the magnitude of the US
     return (1)
 
 def magnitude(v):
     return np.sqrt(np.sum(np.square(v)))
+
+def normalize(v):
+    return v / magnitude(v)
 
 def sum_vector(x): 
     return sum(x)

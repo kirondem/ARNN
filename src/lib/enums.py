@@ -33,5 +33,6 @@ class FashionMNISTCategory(Enum):
 class ANNNetworkType(Enum):
     DynamicLambda = 'dynamic_lambda'
     MagnitudeLamdaRelu = 'magnitude_lamda_relu'
+    lambda_set_to_1 = 'lambda_set_to_1'
 
 

@@ -5,13 +5,13 @@ from operator import mod
 import os
 import random
 import sys
+import cv2
 sys.path.append(os.getcwd())
 import time
 import numpy as np
-import cv2
 from lib import enums, constants, utils, plot_utils
 from models.associative_network import AssociativeNetwork
-from lib.utils import concat_images, dynamic_lambda, lambda_US_magnitude
+from lib.utils import concat_images, dynamic_lambda
 from lib.activation_functions import relu
 
 LOG_LEVEL = logging.getLevelName(constants.lOG_LEVEL)
@@ -67,7 +67,6 @@ def train(network, data, data_size, batch_size, epochs, time_steps, lr, decay_th
 
     return W, Wt_LAST, H, H_H
 
-
 def save_weights(Path, name, data, trials, epochs, time_steps):
     path = os.path.join(Path, 'saved_weights', '{}_{}_{}_{}.npy'.format(trials, epochs, time_steps, name))
     with open(path, 'wb') as f:
@@ -94,36 +93,29 @@ def main():
     network_type = enums.ANNNetworkType.DynamicLambda.value
 
     #Read in fashion mnist data
-    resized_image_dim = 10
-
-    X_fashion_mnist_data = np.zeros((0, N))
-
-    path = os.path.join(PATH, 'data', 'fashion-mnist','images-idx3-ubyte.npy')
-    with open(path, 'rb') as f:
-        X_fashion_mnist_data = np.load(f)
-
-    # Fashion labels 9, 3, 4, 5, 8, 4
-
-    #handbags_indexes = [35, 57, 99, 100]
-    handbags_indexes = [35]
-
-    #sandles_indexes = [9, 12, 13, 30 ]
-    sandles_indexes = [9]
-
-    #dresses_indexes = [1064, 1077, 1093, 1108, 1115, 1120]
-    dresses_indexes = [1064]
-
-    #Trousers indexes
-    #trousers_indexes = [21, 38, 69, 71]
-    trousers_indexes = [21]
+    resized_image_dim = constants.RESIZED_IMAGE_DIM
+    img_circle = cv2.imread(os.path.join(PATH,  'data', 'shapes','circle.jpg'), 0) 
+    img_circle = cv2.resize(img_circle, (resized_image_dim, resized_image_dim))
+    img_circle = img_circle / constants.INPUT_SCALING_FACTOR
     
-    X_fashion_mnist_data_handbags = X_fashion_mnist_data[handbags_indexes] / constants.INPUT_SCALING_FACTOR
-    X_fashion_mnist_data_dresses = X_fashion_mnist_data[dresses_indexes] / constants.INPUT_SCALING_FACTOR
-    X_fashion_mnist_data_sandles = X_fashion_mnist_data[sandles_indexes] / constants.INPUT_SCALING_FACTOR
-    X_fashion_mnist_data_trousers = X_fashion_mnist_data[trousers_indexes] / constants.INPUT_SCALING_FACTOR
+    img_star = cv2.imread(os.path.join(PATH,  'data', 'shapes','star.jpg'), 0) 
+    img_star = cv2.resize(img_star, (resized_image_dim, resized_image_dim))
+    img_star = img_star / constants.INPUT_SCALING_FACTOR
+
+    img_arrow = cv2.imread(os.path.join(PATH,  'data', 'shapes','arrow.jpg'), 0) 
+    img_arrow = cv2.resize(img_arrow, (resized_image_dim, resized_image_dim))
+    img_arrow = img_arrow / constants.INPUT_SCALING_FACTOR
+
+    img_grid = cv2.imread(os.path.join(PATH,  'data', 'shapes','arrow.jpg'), 0) 
+    img_grid = cv2.resize(img_grid, (resized_image_dim, resized_image_dim))
+    img_grid = img_grid / constants.INPUT_SCALING_FACTOR
+
+    img_cross = cv2.imread(os.path.join(PATH,  'data', 'shapes','cross.jpg'), 0) 
+    img_cross = cv2.resize(img_cross, (resized_image_dim, resized_image_dim))
+    img_cross = img_cross / constants.INPUT_SCALING_FACTOR
 
     #Nothing image
-    nothing_image = np.zeros((resized_image_dim, resized_image_dim))
+    nothing_image = np.zeros((resized_image_dim,resized_image_dim))
     nothing_image_double = concat_images(nothing_image, nothing_image)
 
     no_of_units_network_1 = (resized_image_dim * resized_image_dim) * 2
@@ -141,15 +133,10 @@ def main():
 
     #TEST 1
     # CS+ -> US
-    # Trousers -> sandles
-    img1 = random.sample(list(X_fashion_mnist_data_trousers), 1)[0].reshape(28,28)
-    img1 = cv2.resize(img1, (resized_image_dim, resized_image_dim))
-    img2 = nothing_image
+    # Cross + Arrow -> Star
 
-    s1 = concat_images(img1, img2)
-    s2 = random.sample(list(X_fashion_mnist_data_sandles), 1)[0].reshape(28,28)
-    s2 = cv2.resize(s2, (resized_image_dim, resized_image_dim))
-    s2 = concat_images(s2, nothing_image)
+    s1 = concat_images(img_cross, img_arrow)
+    s2 = concat_images(img_star, nothing_image)
 
     s1 = s1.flatten()
     s1 = s1.reshape((1, s1.shape[0]))
@@ -159,21 +146,20 @@ def main():
 
     logging.info("--Training network 1 -- S1")
     _, Wt_LAST, H1, H_H1 = train(network1, s1, data_size, batch_size, args.epochs, args.time_steps, args.lr, decay_threshold)
-    Wt_LAST_1 = Wt_LAST.copy()
+
 
     network1.reset(args.time_steps)
     network1.init_weights(Wt_LAST.copy())
 
     logging.info("--Training network 1 -- S2")
     _, Wt_LAST, H2, H_H2 = train(network1, s2, data_size, batch_size, args.epochs, args.time_steps, args.lr, decay_threshold)
-    Wt_LAST_2 = Wt_LAST.copy()
 
     assoc_input = np.concatenate([H_H1, H_H2])
     assoc_input = assoc_input.reshape((1, assoc_input.shape[0]))
     print(assoc_input.shape)
 
     # Pass through an Relu activation function
-    #assoc_input = relu(assoc_input)
+    # assoc_input = relu(assoc_input)
 
     logging.info("--Training assoc network H_H1 + H_H2")
     _, Wt_LAST_ASSOC, H3, H_H3 = train(network_assoc, assoc_input, data_size, batch_size, args.epochs, args.time_steps, args.lr, decay_threshold)
@@ -187,8 +173,8 @@ def main():
             total_activations.append( Wt_LAST_ASSOC[from_idx, to_idx] * H_H1[from_idx])
             
     total_activations = np.array(total_activations)
-    sum_squared_activities = np.dot(total_activations.T, total_activations)
-    print(sum_squared_activities)
+    sum_activities = np.dot(total_activations.T, total_activations)
+    print(sum_activities)
 
 
     x = 1

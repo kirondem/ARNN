@@ -26,7 +26,7 @@ def get_args_parser():
     parser.add_argument('--env', type=str, default="laptop", help='Enviroment [default: laptop]')
     parser.add_argument('--epochs', default=1, type=int)
     parser.add_argument('--lr', default=0.001, type=float)
-    parser.add_argument('--time_steps', default=5, type=int)
+    parser.add_argument('--time_steps', default=constants.TIME_STEPS, type=int)
     parser.add_argument('--no_of_units', default=784, type=int, help='Number of units in the associative network')
     parser.add_argument('--no_of_input_units', default=784, type=int, help='Number of input units')
     
@@ -84,16 +84,16 @@ def main():
     #TODO: REMOVE
     #args.time_steps = 2
 
-    trials = 20
+    trials = constants.TRIAL_EPOCHS
+    decay_threshold = constants.DECAY_THRESHOLD
     N = 784
     data_size = 1 # 60000
     batch_size = 1
-    decay_threshold = 0.1
 
     network_type = enums.ANNNetworkType.DynamicLambda.value
 
     #Read in fashion mnist data
-    resized_image_dim = 15
+    resized_image_dim = 10
     X_fashion_mnist_data = np.zeros((0, N))
 
     path = os.path.join(PATH, 'data', 'fashion-mnist','images-idx3-ubyte.npy')
@@ -115,10 +115,10 @@ def main():
     #trousers_indexes = [21, 38, 69, 71]
     trousers_indexes = [21]
     
-    X_fashion_mnist_data_handbags = X_fashion_mnist_data[handbags_indexes] / 255.0
-    X_fashion_mnist_data_dresses = X_fashion_mnist_data[dresses_indexes] / 255.0
-    X_fashion_mnist_data_sandles = X_fashion_mnist_data[sandles_indexes] / 255.0
-    X_fashion_mnist_data_trousers = X_fashion_mnist_data[trousers_indexes] / 255.0
+    X_fashion_mnist_data_handbags = X_fashion_mnist_data[handbags_indexes] / constants.INPUT_SCALING_FACTOR
+    X_fashion_mnist_data_dresses = X_fashion_mnist_data[dresses_indexes] / constants.INPUT_SCALING_FACTOR
+    X_fashion_mnist_data_sandles = X_fashion_mnist_data[sandles_indexes] / constants.INPUT_SCALING_FACTOR
+    X_fashion_mnist_data_trousers = X_fashion_mnist_data[trousers_indexes] / constants.INPUT_SCALING_FACTOR
 
     #Nothing image
     nothing_image = np.zeros((resized_image_dim,resized_image_dim))

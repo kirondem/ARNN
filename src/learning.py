@@ -12,7 +12,7 @@ from lib.activation_functions import htan, relu
 import matplotlib
 import matplotlib.pylab as plt
 
-from lib.utils import dynamic_lambda, lambda_US_magnitude
+from lib.utils import dynamic_lambda, lambda_US_magnitude, lambda_set_to_1
 
 LOG_LEVEL = logging.getLevelName(constants.lOG_LEVEL)
 logging.basicConfig(level=LOG_LEVEL)
@@ -73,8 +73,6 @@ class Learning(Base):
 
     def update_weights(self, t, W, h, h_h, learning_rate, directly_activated_units_idxs, decayed_activations_idxs, decayed_activations):
         
-        
-
         W = W.copy()
  
         unique_decayed_activations_idxs = [i for i in decayed_activations_idxs if i not in directly_activated_units_idxs]
@@ -104,22 +102,39 @@ class Learning(Base):
                         total_associative_activations = sum([W[idx][to_idx] * h_h[idx] for idx in decayed_activations_idxs])
                         #print(total_decayed_activations, ':', total_associative_activations)
 
+                        #N = len(directly_activated_units_idxs)  + len(unique_decayed_activations_idxs) + len(decayed_activations_idxs)
+                        N = len(directly_activated_units_idxs)
+                        norm = 1 / N
+
                         v_total = total_direct_activations + total_decayed_activations + total_associative_activations
 
                         h_to = h[to_idx]
                         h_from = h[from_idx]
                         
                         # 3) Calculate maximum conditioning possible for the US
-                        to_lambda_max = dynamic_lambda(h_from, h_to)
+                        
                         #to_lambda_max = lambda_US_magnitude(h_to)
+                        
+                        # TESTS
+                        # to_lambda_max = dynamic_lambda(h_from, h_to)
+                        # 1) d_w = learning_rate * h_from * ((to_lambda_max * h_to) - v_total)
+                        
+                        # 2) Removed * h_to
+                        # to_lambda_max = dynamic_lambda(h_from, h_to)
+                        #d_w = learning_rate * h_from * ((to_lambda_max) - v_total)
 
-                        d_w = learning_rate * h_from * ((to_lambda_max * h_to) - v_total)
+                        # 3) lambda_set_to_1
+                        #to_lambda_max = lambda_set_to_1()
+                        #d_w = learning_rate * h_from * ((to_lambda_max) - v_total)
 
-                        # print("lambda max:", to_lambda_max)
-                        # print("v_total:", v_total)
-                        # print("d_w:", d_w)
+                        # 4) 
+                        to_lambda_max = dynamic_lambda(h_from, h_to)
+                        d_w = learning_rate * h_from * (((to_lambda_max * norm) - (v_total)) **2)
 
                         W[from_idx][to_idx] = W[from_idx][to_idx] + d_w
+
+                #print("lambda max:", to_lambda_max, "v_total:", v_total, "d_w:", d_w)
+
             count += 1
 
         #logging.info("Time taken to update weights: {}".format(end - start))

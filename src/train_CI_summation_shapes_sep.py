@@ -110,38 +110,27 @@ def main():
     network_type = enums.ANNNetworkType.DynamicLambda.value
 
     #Read in fashion mnist data
-    resized_image_dim = 10
-    X_fashion_mnist_data = np.zeros((0, N))
-
-    path = os.path.join(PATH, 'data', 'fashion-mnist','images-idx3-ubyte.npy')
-    with open(path, 'rb') as f:
-        X_fashion_mnist_data = np.load(f)
+    resized_image_dim = constants.RESIZED_IMAGE_DIM
+  
+    img_circle = cv2.imread(os.path.join(PATH,  'data', 'shapes','circle.jpg'), 0) 
+    img_circle = cv2.resize(img_circle, (resized_image_dim, resized_image_dim))
+    img_circle = img_circle / constants.INPUT_SCALING_FACTOR
     
-    # y_fashion_mnist_data = np.zeros((0, N))
-    # path = os.path.join(PATH, 'data', 'fashion-mnist','labels-idx1-ubyte.npy')
-    # with open(path, 'rb') as f:
-    #     y_fashion_mnist_data = np.load(f)
+    img_star = cv2.imread(os.path.join(PATH,  'data', 'shapes','star.jpg'), 0) 
+    img_star = cv2.resize(img_star, (resized_image_dim, resized_image_dim))
+    img_star = img_star / constants.INPUT_SCALING_FACTOR
 
-    # Fashion labels 9, 3, 4, 5, 8, 4
+    img_arrow = cv2.imread(os.path.join(PATH,  'data', 'shapes','arrow.jpg'), 0) 
+    img_arrow = cv2.resize(img_arrow, (resized_image_dim, resized_image_dim))
+    img_arrow = img_arrow / constants.INPUT_SCALING_FACTOR
 
-    #handbags_indexes = [35, 57, 99, 100]
-    handbags_indexes = [35]
+    img_grid = cv2.imread(os.path.join(PATH,  'data', 'shapes','arrow.jpg'), 0) 
+    img_grid = cv2.resize(img_grid, (resized_image_dim, resized_image_dim))
+    img_grid = img_grid / constants.INPUT_SCALING_FACTOR
 
-    #sandles_indexes = [9, 12, 13, 30 ]
-    sandles_indexes = [9]
-
-    #dresses_indexes = [1064, 1077, 1093, 1108, 1115, 1120]
-    dresses_indexes = [1064]
-
-    #Trousers indexes
-    #trousers_indexes = [21, 38, 69, 71]
-    trousers_indexes = [21]
-    
-    
-    X_fashion_mnist_data_handbags = X_fashion_mnist_data[handbags_indexes] / constants.INPUT_SCALING_FACTOR
-    X_fashion_mnist_data_dresses = X_fashion_mnist_data[dresses_indexes] / constants.INPUT_SCALING_FACTOR
-    X_fashion_mnist_data_sandles = X_fashion_mnist_data[sandles_indexes] / constants.INPUT_SCALING_FACTOR
-    X_fashion_mnist_data_trousers = X_fashion_mnist_data[trousers_indexes] / constants.INPUT_SCALING_FACTOR
+    img_cross = cv2.imread(os.path.join(PATH,  'data', 'shapes','cross.jpg'), 0) 
+    img_cross = cv2.resize(img_cross, (resized_image_dim, resized_image_dim))
+    img_cross = img_cross / constants.INPUT_SCALING_FACTOR
 
     #Nothing image
     nothing_image = np.zeros((resized_image_dim, resized_image_dim))
@@ -156,66 +145,51 @@ def main():
     start_time = time.time()
     logging.info("Start training {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M')))
 
+    for i in range(0):
+        logging.info("🚀 Trial: {} 🚀".format(i+1))
+        # Cross -> Star
+        s1 = concat_images(img_cross, nothing_image)
+        s2 = concat_images(img_star, nothing_image)
+
+        s1 = s1.flatten()
+        s1 = s1.reshape((1, s1.shape[0]))
+        s2 = s2.flatten()
+        s2 = s2.reshape((1, s2.shape[0]))
+        #### Wt_LAST, Wt_LAST_ASSOC = train_all(network1, network_assoc, s1, s2, data_size, batch_size, args, decay_threshold)
+
+
     for i in range(trials):
         logging.info("🚀 Trial: {} 🚀".format(i+1))
         
-        # Handbags -> sandles
-        img1 = random.sample(list(X_fashion_mnist_data_handbags), 1)[0].reshape(28,28)
-        img1 = cv2.resize(img1, (resized_image_dim, resized_image_dim))
-        img2 = nothing_image
-
-        s1 = concat_images(img1, img2)
-        s2 = random.sample(list(X_fashion_mnist_data_sandles), 1)[0].reshape(28,28)
-        s2 = cv2.resize(s2, (resized_image_dim, resized_image_dim))
-        s2 = concat_images(s2, nothing_image)
+        # Circle -> Star
+        s1 = concat_images(img_circle, nothing_image)
+        s2 = concat_images(img_star, nothing_image)
 
         s1 = s1.flatten()
         s1 = s1.reshape((1, s1.shape[0]))
         s2 = s2.flatten()
         s2 = s2.reshape((1, s2.shape[0]))
 
-        Wt_LAST, Wt_LAST_ASSOC = train_all(network1, network_assoc, s2, s2, data_size, batch_size, args, decay_threshold)
+        #### Wt_LAST, Wt_LAST_ASSOC = train_all(network1, network_assoc, s1, s2, data_size, batch_size, args, decay_threshold)
         
-        # Handbags + dresses -> NOTHING
-        img1 = random.sample(list(X_fashion_mnist_data_handbags), 1)[0].reshape(28,28)
-        img1 = cv2.resize(img1, (resized_image_dim, resized_image_dim))
-        img2 = random.sample(list(X_fashion_mnist_data_dresses),1 )[0].reshape(28,28)
-        img2 = cv2.resize(img2, (resized_image_dim, resized_image_dim))
-
-        s1 = concat_images(img1, img2)
+        # Circle + Arrow -> NOTHING
+        s1 = concat_images(img_circle, img_arrow)
         s2 = nothing_image_double
 
         s1 = s1.flatten()
         s1 = s1.reshape((1, s1.shape[0]))
         s2 = s2.flatten()
         s2 = s2.reshape((1, s2.shape[0]))
-        Wt_LAST, Wt_LAST_ASSOC = train_all(network1, network_assoc, s2, s2, data_size, batch_size, args, decay_threshold)
 
-        # Trousers -> sandles
-        img1 = random.sample(list(X_fashion_mnist_data_trousers), 1)[0].reshape(28,28)
-        img1 = cv2.resize(img1, (resized_image_dim, resized_image_dim))
-        img2 = nothing_image
-
-        s1 = concat_images(img1, img2)
-        s2 = random.sample(list(X_fashion_mnist_data_sandles), 1)[0].reshape(28,28)
-        s2 = cv2.resize(s2, (resized_image_dim, resized_image_dim))
-        s2 = concat_images(s2, nothing_image)
-
-        s1 = s1.flatten()
-        s1 = s1.reshape((1, s1.shape[0]))
-        s2 = s2.flatten()
-        s2 = s2.reshape((1, s2.shape[0]))
-        Wt_LAST, Wt_LAST_ASSOC = train_all(network1, network_assoc, s2, s2, data_size, batch_size, args, decay_threshold)
-
-        save_weights(PATH, 'Wt_LAST1', Wt_LAST, trials, args.epochs, args.time_steps, network_type)
-        save_weights(PATH, 'Wt_LAST_ASSOC', Wt_LAST_ASSOC, trials, args.epochs, args.time_steps, network_type)
+        Wt_LAST, Wt_LAST_ASSOC = train_all(network1, network_assoc, s1, s2, data_size, batch_size, args, decay_threshold)
 
     end_time = time.time()
 
+    save_weights(PATH, 'Wt_LAST1', Wt_LAST, trials, args.epochs, args.time_steps, network_type)
+    save_weights(PATH, 'Wt_LAST_ASSOC', Wt_LAST_ASSOC, trials, args.epochs, args.time_steps, network_type)
+    
     logging.info("End training {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M')))
     logging.info("Training took {0:.1f}".format(end_time-start_time))
-
-    x = 1
 
 if __name__ == '__main__':
     main()

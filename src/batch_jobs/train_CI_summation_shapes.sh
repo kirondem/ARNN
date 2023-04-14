@@ -6,8 +6,8 @@
 #SBATCH --nodes=1                            # Run on 1 nodes (each node has 48 cores)
 #SBATCH --ntasks-per-node=1                  # Run one task
 #SBATCH --cpus-per-task=1                    # Use 4 cores, most of the procesing happens on the GPU     
-#SBATCH --time=48:00:00                      # Expected ammount of time to Rrun Time limit hrs:min:sec
-#SBATCH --mem=100MB                            # Expected memory usage (0 means use all available memory)
+#SBATCH --time=24:00:00                      # Expected ammount of time to Rrun Time limit hrs:min:sec
+#SBATCH --mem=100MB                          # Expected memory usage (0 means use all available memory)
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=mpagi.kironde@city.ac.uk
 #SBATCH --output=/users/adbg238/logs/train_ANN_%j.txt        # Standard output and error log [%j is replaced with the jobid]
@@ -25,4 +25,4 @@ module purge
 #Run your script.
 cd /users/adbg238/Work/PhD/src
 
-python3 train_CI_summation.py
+python3 train_CI_summation_shapes.py
