@@ -9,6 +9,7 @@
 *.pth
 
 __pycache__/
+data/*
 src/data/*
 src/data/MNIST/raw/train-images-idx3-ubyte.gz
 src/arrt1d/*
