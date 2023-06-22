@@ -35,11 +35,13 @@ def decay_activation(h, t, timesteps):
     return h
 
 def decay_activation_g(h, t, decay_threshold,  timesteps):
-    d = h.copy()
     decayed_activations = h * np.exp(-(t**2 / timesteps))
     decayed_activations[decayed_activations < decay_threshold] = 0
-    decayed_activations_idxs = np.where(d!=decayed_activations)
+    decayed_activations_idxs = np.where(h != decayed_activations)
     return decayed_activations, decayed_activations_idxs[0]
+
+def transform_inputs(x):
+    return normalize_weight_matrix(x)
 
 def zero_sum_incoming_check(weights):
     zero_sum_incomings = np.where(np.sum(weights, axis=0) == 0.)
@@ -70,7 +72,7 @@ def normalize_weight_matrix(weight_matrix):
     Returns:
         weight_matrix(array) -- Normalized weight matrix"""
 
-    normalized_weight_matrix = weight_matrix / np.sum(weight_matrix, axis=0)
+    normalized_weight_matrix = weight_matrix / np.sum(weight_matrix, axis=1)
 
     return normalized_weight_matrix
 
@@ -112,3 +114,49 @@ def save_parameters(PATH, epochs, time_steps, W, W_OUT, H, H_H):
     path = os.path.join(PATH, 'saved_models', '{}_{}_{}_hh.npy'.format(epochs, time_steps))
     with open(path, 'wb') as f:
         np.save(f, H_H)
+
+    
+def prune_small_weights(weights: np.array, cutoff_weight: float):
+    """Prune the connections with negative connection strength. The weights less than cutoff_weight set to 0
+
+    Args:
+        weights (np.array): Synaptic strengths
+
+        cutoff_weight (float): Lower weight threshold
+
+    Returns:
+        array: Connections weights with values less than cutoff_weight set to 0
+    """
+
+    weights[weights <= cutoff_weight] = cutoff_weight
+
+    return weights
+
+
+def set_max_cutoff_weight(weights: np.array, cutoff_weight: float):
+    """Set cutoff limit for the values in given array
+
+    Args:
+        weights (np.array): Synaptic strengths
+
+        cutoff_weight (float): Higher weight threshold
+
+    Returns:
+        array: Connections weights with values greater than cutoff_weight set to 1
+    """
+
+    weights[weights > cutoff_weight] = cutoff_weight
+
+    return 
+
+def save_weights(Path, name, data, trials, epochs, time_steps):
+    path = os.path.join(Path, 'saved_weights', '{}_{}_{}_{}.npy'.format(trials, epochs, time_steps, name))
+    with open(path, 'wb') as f:
+        np.save(f, data)
+
+def load_weights(Path, name, trials, epochs, time_steps, network_type):
+    path = os.path.join(Path, 'saved_weights', '{}_{}_{}_{}_{}.npy'.format(trials, epochs, time_steps, name, network_type))
+    with open(path, 'rb') as f:
+        data = np.load(f)
+    return data
+

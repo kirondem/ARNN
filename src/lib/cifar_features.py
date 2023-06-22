@@ -10,7 +10,7 @@ def getCIFAR10Data():
         [transforms.ToTensor(),
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-    batch_size = 4
+    batch_size = 10
 
     data_path = os.path.join(PATH, '..', 'data')
     trainset = torchvision.datasets.CIFAR10(root=data_path, train=True, download=False, transform=transform)
@@ -20,6 +20,8 @@ def getCIFAR10Data():
 
     dataiter = iter(trainloader)
     images, labels = next(dataiter)
+
+    # frog  truck truck deer  car   car   bird  horse ship  cat
 
     return images, labels
     

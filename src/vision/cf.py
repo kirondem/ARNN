@@ -20,9 +20,9 @@ def main():
         [transforms.ToTensor(),
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-    batch_size = 4
+    batch_size = 10
 
-    data_path = os.path.join(PATH, '..', 'data')
+    data_path = os.path.join(PATH, '..', '..', 'data')
     trainset = torchvision.datasets.CIFAR10(root=data_path, train=True, download=False, transform=transform)
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, shuffle=False, num_workers=1)
 
@@ -33,16 +33,14 @@ def main():
     images, labels = next(dataiter)
 
     # show images
-    imshow(torchvision.utils.make_grid(images))
+    #imshow(torchvision.utils.make_grid(images))
 
     print(' '.join(f'{classes[labels[j]]:5s}' for j in range(batch_size)))
 
     # frog  truck truck deer
 
     model = models.resnet18(weights='IMAGENET1K_V1')
-
     model = torch.nn.Sequential(*(list(model.children())[:-1]))
-
     model.eval()
 
     img = images[0]

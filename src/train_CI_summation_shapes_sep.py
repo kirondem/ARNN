@@ -124,10 +124,6 @@ def main():
     img_arrow = cv2.resize(img_arrow, (resized_image_dim, resized_image_dim))
     img_arrow = img_arrow / constants.INPUT_SCALING_FACTOR
 
-    img_grid = cv2.imread(os.path.join(PATH,  'data', 'shapes','arrow.jpg'), 0) 
-    img_grid = cv2.resize(img_grid, (resized_image_dim, resized_image_dim))
-    img_grid = img_grid / constants.INPUT_SCALING_FACTOR
-
     img_cross = cv2.imread(os.path.join(PATH,  'data', 'shapes','cross.jpg'), 0) 
     img_cross = cv2.resize(img_cross, (resized_image_dim, resized_image_dim))
     img_cross = img_cross / constants.INPUT_SCALING_FACTOR

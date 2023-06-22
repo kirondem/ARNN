@@ -11,8 +11,9 @@ from lib import enums, constants
 from lib.activation_functions import htan, relu
 import matplotlib
 import matplotlib.pylab as plt
+import math
 
-from lib.utils import dynamic_lambda, lambda_US_magnitude, lambda_set_to_1
+from lib.utils import dynamic_lambda, lambda_US_magnitude, lambda_set_to_1, prune_small_weights, set_max_cutoff_weight
 
 LOG_LEVEL = logging.getLevelName(constants.lOG_LEVEL)
 logging.basicConfig(level=LOG_LEVEL)
@@ -26,15 +27,15 @@ class Learning(Base):
         self.no_of_units = no_of_units
 
     def direct_activation_of_units(self, x, H_t):
-        activated_units_idxs = np.where(x > H_t)[0]
-        np.put(H_t, activated_units_idxs, x[activated_units_idxs])
-        return activated_units_idxs
+        x_idxs = np.where(x > H_t)[0]
+        np.put(H_t, x_idxs, x[x_idxs])
+        return x_idxs, H_t
 
     def direct_activation_of_units_optimised(self, x, H_t):
         random_idxs = np.array(random.sample(range(len(H_t)), len(x)))
         x_idxs = np.where(x > H_t[random_idxs])[0]
         np.put(H_t, random_idxs[x_idxs], x[x_idxs])
-        return random_idxs[x_idxs]
+        return random_idxs[x_idxs], H_t
 
     def direct_activation_of_units_randomly(self, x, H_t):
 
@@ -52,16 +53,20 @@ class Learning(Base):
 
         for decayed_unit_idx in decayed_activations_idxs:
 
-            total_activation = 0
-            for idx in decayed_activations_idxs:
+            #total_activation = 0
+            #for idx in decayed_activations_idxs:
                 
-                if idx != decayed_unit_idx:
-                    total_activation +=  W[idx][decayed_unit_idx] * decayed_activations[idx]
+                #if idx != decayed_unit_idx:
+                    #total_activation +=  W[idx][decayed_unit_idx] * decayed_activations[idx]
             
-            H_H[decayed_unit_idx] = total_activation
+            H_H[decayed_unit_idx] = sum(W[idx][decayed_unit_idx] * decayed_activations[idx] for idx in decayed_activations_idxs if idx != decayed_unit_idx)
+
+            #H_H[decayed_unit_idx] = total_activation
         
+        # H_H1 = [sum(W[idx][decayed_unit_idx] * decayed_activations[idx] for idx in decayed_activations_idxs if idx != decayed_unit_idx) for decayed_unit_idx in decayed_activations_idxs]
+
         # Activation function
-        ##H_H = relu(H_H)
+        #H_H = relu(H_H)
 
         return H_H
 
@@ -72,8 +77,6 @@ class Learning(Base):
         #print("All done in the new thread:", threading.current_thread().name)
 
     def update_weights(self, t, W, h, h_h, learning_rate, directly_activated_units_idxs, decayed_activations_idxs, decayed_activations):
-        
-        W = W.copy()
  
         unique_decayed_activations_idxs = [i for i in decayed_activations_idxs if i not in directly_activated_units_idxs]
 
@@ -128,8 +131,15 @@ class Learning(Base):
                         #d_w = learning_rate * h_from * ((to_lambda_max) - v_total)
 
                         # 4) 
+                        #to_lambda_max = dynamic_lambda(h_from, h_to)
+                        # d_w = learning_rate * h_from * (((to_lambda_max * norm) - (v_total)) **2)
+
+                        # 5)
                         to_lambda_max = dynamic_lambda(h_from, h_to)
-                        d_w = learning_rate * h_from * (((to_lambda_max * norm) - (v_total)) **2)
+                        d_w = learning_rate * h_from * (((to_lambda_max) - (v_total)))
+
+                        if(math.isnan(d_w)):
+                            print("h_from:", h_from, " lambda max:", to_lambda_max, " v_total:", v_total, " d_w:", d_w)
 
                         W[from_idx][to_idx] = W[from_idx][to_idx] + d_w
 
@@ -139,13 +149,14 @@ class Learning(Base):
 
         #logging.info("Time taken to update weights: {}".format(end - start))
         
-
         """ Prune the smallest weights induced by plasticity mechanisms; Apply lower cutoff weight"""
-        #wee_t = self.init.prune_small_weights(wee_t, cutoff_weights[0])
+        W = prune_small_weights(W, -10)
 
         """Check and set all weights < upper cutoff weight """
         #wee_t = self.init.set_max_cutoff_weight(wee_t, cutoff_weights[1])
 
+        W = set_max_cutoff_weight(W, 10)
+        
         return W
 
 

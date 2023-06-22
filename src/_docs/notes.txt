@@ -6,14 +6,11 @@
 
 Transfer report
 
-
 sharedscratch - Temporally space available to all nodes
-
 
 /users/adbg238/Work/PhD/src/batch_jobs
 sbatch train.sh
 sbatch train_mnist.sh
-
 
 https://www.vanderbilt.edu/accre/documentation/python/
 
@@ -32,22 +29,27 @@ pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --user https://files.pyt
 pip install torchrec
 slurm additional Python packages
 
-
 pip2 install torchrec_nightly
-pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --user torchrec
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --user 
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --user torchvision
+torchvision
 
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --user   torch==1.10.1+cu111 torchvision==0.11.2+cu111 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu111/torch_stable.html
 
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --user  torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio==0.11.0 --extra-index-url https://download.pytorch.org/whl/cu113
+
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 --user   --upgrade torch torchvision
 
 #set up the temporary directory
 set TMPDIR="/scratch/local/u0123456/data"
 mkdir -P $TMPDIR
+
 #Set up the path to the working directory
 set WORKDIR="/uufs/chpc.utah.edu/common/home/u0123456/data"
 cd $WORKDIR
 #Run the program with our input
 set BINDIR="/uufs/chpc.utah.edu/sys/pkg/mypackage/bin"
 $BINDIR/myprogram < $WORKDIR/input > $WORKDIR/output
-
 
 To run batch script
 source /opt/flight/etc/setup.sh
@@ -56,18 +58,20 @@ flight env activate gridware
 cd /users/adbg238/Work/PhD/src/batch_jobs
 sbatch train_CI_summation.sh
 
+cd batch_jobs
+sbatch train_CI_summation_cifar_sep.sh
+
 sbatch train_CI_summation_shapes.sh
 sbatch train_CI_summation_shapes_sep.sh
+sbatch train_CI_summation_cifar_sep.sh
 
 sbatch train.sh
 sbatch test_CI_summation.sh
 
-
-
 dos2unix train_CI_summation_shapes.sh
 dos2unix train_CI_summation_shapes_sep.sh
-
-
+dos2unix train_CI_summation_cifar_sep.sh
+dos2unix train_cifar.sh
 
 https://cityuni.service-now.com/sp?sys_kb_id=5779b7581bea19d0f82d9828b04bcb62&id=kb_article_view&sysparm_rank=8&sysparm_tsqueryId=040607501b05ed906a7effb7d34bcbd2
 
@@ -88,3 +92,68 @@ pip install --trusted-host pypi.python.org linkchecker
 
 
 pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128  numpy config --global http.sslVerify false
+
+
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128  torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio==0.11.0 --extra-index-url https://download.pytorch.org/whl/cu113
+
+
+/users/adbg238/.pyenv/shims/python3.10
+
+source /users/adbg238/.pyenv/shims/python3.10
+
+source python3-virtualenv/bin/activate
+
+
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128  -U pip requests 
+
+# Activate python env
+python3 -m venv python3-virtualenv
+
+
+python3 -m venv python38-virtualenv -p python3.8
+python3 -m venv python38-virtualenv
+source python38-virtualenv/bin/activate
+
+
+virtualenv -p C:/usr/local/opt/python-3.8.0/bin/python
+
+python3 -m venv python310-virtualenv -p /users/adbg238/.pyenv/shims/python3.10
+
+
+
+python3  py -3.8 -m venv env1
+
+
+https_proxy=http://hpc-proxy00.city.ac.uk:3128 CPPFLAGS="-I/opt/apps/gnu/include" LDFLAGS="-L/opt/apps/gnu/lib -L/opt/apps/gnu/lib64 -ltinfo"   pyenv install 3.11.2
+
+pyenv virtualenv 3.10.0 py310
+
+mkdir pytorch
+echo py3112 > pytorch/.python-version
+cd pytorch
+
+mkdir arnn
+echo py3112 > arnn/.python-version
+cd arnn
+
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 scipy
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128  numpy
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128  opencv-python
+
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128  torch==1.13.1 torchvision==0.14.1
+
+
+pyenv virtualenv 3.11.2 py3112
+
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128  torch==1.13.1 torchvision==0.14.1
+
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128  pytorch==1.13.1 torchvision==0.14.1 pytorch-cuda=11.7 -c pytorch -c nvidia
+
+
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128  torch==1.13.1+cu116 torchvision==0.15.1 torchaudio==2.0.0 --extra-index-url https://download.pytorch.org/whl/cu116
+
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128  torch==1.13.1+cu116 torchvision --extra-index-url https://download.pytorch.org/whl/cu116
+
+pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128   --upgrade torch torchvision
+
+Downloading: "https://download.pytorch.org/models/resnet18-f37072fd.pth" to /users/adbg238/.cache/torch/hub/checkpoints/resnet18-f37072fd.pth

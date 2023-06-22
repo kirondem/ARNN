@@ -83,12 +83,13 @@ def main():
     args = get_args_parser()
 
     #Read in fashion mnist data
-    resized_image_dim = constants.RESIZED_IMAGE_DIM
+    # resized_image_dim = constants.
+    resized_image_dim = 16
     no_of_units_network_1 = (resized_image_dim * resized_image_dim) * 2
     network_assoc = AssociativeNetwork(no_of_units_network_1 * 2 , args.time_steps)
 
     # Load the saved weights
-    path = os.path.join(PATH, 'saved_weights', 'AD-NOTHING_50_1_4_Wt_LAST_ASSOC_dynamic_lambda.npy')
+    path = os.path.join(PATH, 'saved_weights', '20_1_4_Wt_LAST1_dynamic_lambda_1.npy')
     # path = os.path.join(PATH, 'saved_weights', 'C-B_50_1_4_Wt_LAST_ASSOC_dynamic_lambda.npy')
     
     with open(path, 'rb') as f:
