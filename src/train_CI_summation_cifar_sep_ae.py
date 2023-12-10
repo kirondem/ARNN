@@ -19,6 +19,8 @@ from models.associative_network import AssociativeNetwork
 from lib.utils import concat_images, dynamic_lambda, transform_inputs
 from lib.activation_functions import relu, sigmoid
 
+from models.auto_encoder import Autoencoder
+
 LOG_LEVEL = logging.getLevelName(constants.lOG_LEVEL)
 logging.basicConfig(level=LOG_LEVEL)
 logging.getLogger('matplotlib.font_manager').disabled = True
@@ -31,6 +33,10 @@ APPLICATION = enums.Application.base_line.value
 
 device = torch.device("cuda:0" if (torch.cuda.is_available()) else "cpu")
 activation = {}
+
+path = os.path.join(PATH, 'saved_weights', f'autoencoder_{constants.AE_TRAIN_EPOCHS}.pth')
+auto_encoder = Autoencoder(512, 256).to(device)
+auto_encoder.load_state_dict(torch.load(path))
 
 def plot_features(features):
     # Get the number of feature maps (channels)
@@ -129,14 +135,22 @@ def train_associate_s1_and_s2(network1, network_assoc, s1 , s2, data_size, batch
     _, Wt_LAST, H2, H_H2 = train(network1, s2, data_size, batch_size, args.epochs, args.time_steps, args.lr, decay_threshold)
     Wt_LAST = Wt_LAST.copy()
 
+    H_H1 = np.array(H_H1, dtype='float32')
+    H_H1 = torch.from_numpy(H_H1).to(device)
+    H_H1  = H_H1.unsqueeze(0)
+    H_H1 = auto_encoder.encoder(H_H1)
+    H_H1 = H_H1.squeeze(0).detach().cpu().numpy()
+
+    H_H2 = np.array(H_H2, dtype='float32')
+    H_H2 = torch.from_numpy(H_H2).to(device)
+    H_H2  = H_H2.unsqueeze(0)
+    H_H2 = auto_encoder.encoder(H_H2)
+    H_H2 = H_H2.squeeze(0).detach().cpu().numpy()
+
     assoc_input = np.concatenate([H_H1, H_H2])
+    assoc_input = assoc_input.flatten()
+
     assoc_input = assoc_input.reshape((1, assoc_input.shape[0]))
-
-    # Pass through an Relu activation function
-    ## assoc_input = relu(assoc_input)
-    ## assoc_input = sigmoid(assoc_input)
-
-    #assoc_input = transform_inputs(assoc_input)
 
     logging.info("--Training assoc network H_H1 + H_H2")
     _, Wt_LAST_ASSOC, H3, H_H3 = train(network_assoc, assoc_input, data_size, batch_size, args.epochs, args.time_steps, args.lr, decay_threshold)
@@ -163,7 +177,7 @@ def train_network_1(resized_image_dim, features_frog, features_cat, nothing_imag
     no_of_units_network = (resized_image_dim * resized_image_dim) * 2
 
     network = AssociativeNetwork(no_of_units_network, args.time_steps)
-    network_assoc = AssociativeNetwork(no_of_units_network * 2 , args.time_steps)
+    network_assoc = AssociativeNetwork(no_of_units_network, args.time_steps)
 
     start_time = time.time()
     logging.info("Start training network 1 {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M')))
@@ -198,7 +212,7 @@ def train_network_2(resized_image_dim, features_truck, features_cat, features_bi
 
     no_of_units_network = (resized_image_dim * resized_image_dim) * 2
     network = AssociativeNetwork(no_of_units_network, args.time_steps)
-    network_assoc = AssociativeNetwork(no_of_units_network * 2 , args.time_steps)
+    network_assoc = AssociativeNetwork(no_of_units_network , args.time_steps)
 
     nothing_image_double = concat_images(nothing_image, nothing_image)
         

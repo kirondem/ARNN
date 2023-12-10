@@ -32,7 +32,8 @@ class Learning(Base):
         return x_idxs, H_t
 
     def direct_activation_of_units_optimised(self, x, H_t):
-        random_idxs = np.array(random.sample(range(len(H_t)), len(x)))
+        # random_idxs = np.array(random.sample(range(len(H_t)), len(x))) 
+        random_idxs = np.random.choice(len(H_t), len(x), replace=False)
         x_idxs = np.where(x > H_t[random_idxs])[0]
         np.put(H_t, random_idxs[x_idxs], x[x_idxs])
         return random_idxs[x_idxs], H_t
@@ -46,6 +47,21 @@ class Learning(Base):
             if (x[i] > H_t[random_idx]):
                 H_t[random_idx] = x[i]
         return random_idxs
+
+    def associative_activations_optimised(self, W, decayed_activations_idxs, decayed_activations):
+        # Use numpy to initialize the array
+        H_H = np.zeros(self.no_of_units)
+
+        for decayed_unit_idx in decayed_activations_idxs:
+
+            # Use numpy to remove the current unit from the list of decayed units
+            other_idxs = np.delete(decayed_activations_idxs, np.where(decayed_activations_idxs == decayed_unit_idx))
+
+            # Use numpy to perform element-wise operations on the arrays
+            H_H[decayed_unit_idx] = np.sum(W[other_idxs, decayed_unit_idx] * decayed_activations[other_idxs])
+
+
+        return H_H
 
     def associative_activations(self, W, decayed_activations_idxs, decayed_activations):
         
@@ -75,6 +91,44 @@ class Learning(Base):
         total = sum([W[idx][to_idx] * h[idx] for idx in idxs])
         out_queue1.put(total)
         #print("All done in the new thread:", threading.current_thread().name)
+
+    def update_weights_optimised(self, t, W, h, h_h, learning_rate, directly_activated_units_idxs, decayed_activations_idxs, decayed_activations):
+
+        unique_decayed_activations_idxs = [i for i in decayed_activations_idxs if i not in directly_activated_units_idxs]
+        v_total = 0
+        d_w = 0
+
+        for from_idx in directly_activated_units_idxs:
+
+            if h[from_idx] != 0:
+
+                # Use list comprehension to calculate the total direct, decayed, and associative activations
+                total_direct_activations = sum([W[idx][to_idx] * h[idx] for idx in directly_activated_units_idxs for to_idx in directly_activated_units_idxs if from_idx != to_idx])
+                total_decayed_activations = sum([W[idx][to_idx] * decayed_activations[idx] for idx in unique_decayed_activations_idxs for to_idx in directly_activated_units_idxs])
+                total_associative_activations = sum([W[idx][to_idx] * h_h[idx] for idx in decayed_activations_idxs for to_idx in directly_activated_units_idxs])
+                v_total = total_direct_activations + total_decayed_activations + total_associative_activations
+
+                for to_idx in directly_activated_units_idxs:
+                    if from_idx != to_idx:
+                        h_to = h[to_idx]
+                        h_from = h[from_idx]
+
+                        to_lambda_max = dynamic_lambda(h_from, h_to)
+                        d_w = learning_rate * h_from * (((to_lambda_max) - (v_total)))
+
+                        # Use a smaller learning rate to reduce the magnitude of the weight updates
+                        # d_w = d_w / 10
+
+                        if(math.isnan(d_w)):
+                            print("h_from:", h_from, " lambda max:", to_lambda_max, " v_total:", v_total, " d_w:", d_w)
+
+                        W[from_idx][to_idx] = W[from_idx][to_idx] + d_w
+
+            # Use numpy to apply the pruning and cutoff weights
+            W = prune_small_weights(W, -1)
+            W = set_max_cutoff_weight(W, 1)
+        print("v_total:", v_total, "d_w:", d_w)
+        return W
 
     def update_weights(self, t, W, h, h_h, learning_rate, directly_activated_units_idxs, decayed_activations_idxs, decayed_activations):
  
@@ -150,13 +204,15 @@ class Learning(Base):
         #logging.info("Time taken to update weights: {}".format(end - start))
         
         """ Prune the smallest weights induced by plasticity mechanisms; Apply lower cutoff weight"""
-        W = prune_small_weights(W, -10)
+        W = prune_small_weights(W, -1)
 
         """Check and set all weights < upper cutoff weight """
         #wee_t = self.init.set_max_cutoff_weight(wee_t, cutoff_weights[1])
 
-        W = set_max_cutoff_weight(W, 10)
+        W = set_max_cutoff_weight(W, 1)
         
+        print("v_total:", v_total, "d_w:", d_w)
+
         return W
 
 

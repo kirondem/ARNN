@@ -107,15 +107,8 @@ def main():
         features = activation['conv1'].cpu().numpy()
 
     features_frog = features[0][1]
-    features_truck = features[1][1]
     features_bird = features[6][1]
     features_cat = features[9][1]
-
-    # Make are all features that negative are zero
-    features_frog[features_frog < 0] = 0
-    features_truck[features_truck < 0] = 0
-    features_bird[features_bird < 0] = 0
-    features_cat[features_cat < 0] = 0
 
     #Nothing image
     nothing_image = np.zeros((resized_image_dim, resized_image_dim))
@@ -138,8 +131,12 @@ def main():
     # Cross + Arrow -> Star
     # Frog + Bird -> Cat
 
-    s1 = concat_images(features_frog, features_bird)
-    s2 = concat_images(features_cat, nothing_image)
+    #s1 = concat_images(features_frog, features_bird)
+    #s2 = concat_images(features_cat, nothing_image)
+
+    s1 = np.concatenate((features_frog, features_bird), axis=1)
+    s2 = np.concatenate((features_cat, np.zeros_like(features_cat)), axis=1)
+    
 
     s1 = s1.flatten()
     s1 = s1.reshape((1, s1.shape[0]))
@@ -164,25 +161,28 @@ def main():
     assoc_input = transform_inputs(assoc_input)
 
     logging.info("--Training assoc network H_H1 + H_H2")
-    _, Wt_LAST_ASSOC, H3, H_H3 = train(network_assoc, assoc_input, data_size, batch_size, args.epochs, args.time_steps, args.lr, decay_threshold)
-    Wt_LAST_ASSOC = Wt_LAST_ASSOC.copy()
+    W_A, Wt_LAST_A, H_A, H_HA = train(network_assoc, assoc_input, data_size, batch_size, args.epochs, args.time_steps, args.lr, decay_threshold)
 
     print(Wt_LAST_ASSOC.shape)
 
-    total_last_assoc_weights = []
-    for from_idx in range(H_H1.shape[0]):
-        for to_idx in range(H_H1.shape[0]):
-            total_last_assoc_weights.append( Wt_LAST_ASSOC[from_idx, to_idx])
+    #total_last_assoc_weights = []
+    #for from_idx in range(H_H1.shape[0]):
+    #    for to_idx in range(H_H1.shape[0]):
+    #        total_last_assoc_weights.append( Wt_LAST_ASSOC[from_idx, to_idx])
             
-    total_last_assoc_weights = np.array(total_last_assoc_weights)
-    total_last_assoc_weights = np.dot(total_last_assoc_weights.T, total_last_assoc_weights)
-    print('total_last_assoc_weights: ', total_last_assoc_weights)
+    #total_last_assoc_weights = np.array(total_last_assoc_weights)
+    #total_last_assoc_weights = np.dot(total_last_assoc_weights.T, total_last_assoc_weights)
+    #print('total_last_assoc_weights: ', total_last_assoc_weights)
 
     total_activations = []
-    for from_idx in range(H_H1.shape[0]):
-        for to_idx in range(H_H1.shape[0]):
-            total_activations.append( Wt_LAST_ASSOC[from_idx, to_idx] * H_H1[from_idx])
-            
+    for from_idx in range(0, no_of_units_network_1):
+        for to_idx in range(no_of_units_network_1, no_of_units_network_1 * 2):
+            total_activations.append( Wt_LAST_ASSOC[from_idx, to_idx] * H_HA[from_idx])
+
+    # Average of all the total activations
+    average_activations = np.mean(total_activations, axis=0)
+    print('Average of all the total activations: ', average_activations)
+    
     total_activations = np.array(total_activations)
     sum_activities = np.dot(total_activations.T, total_activations)
     print('sum_activities: ', sum_activities)

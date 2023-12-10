@@ -51,7 +51,7 @@ cd $WORKDIR
 set BINDIR="/uufs/chpc.utah.edu/sys/pkg/mypackage/bin"
 $BINDIR/myprogram < $WORKDIR/input > $WORKDIR/output
 
-To run batch script
+**** To run batch script
 source /opt/flight/etc/setup.sh
 flight env activate gridware
 
@@ -135,6 +135,11 @@ cd pytorch
 mkdir arnn
 echo py3112 > arnn/.python-version
 cd arnn
+
+source /opt/flight/etc/setup.sh
+flight env activate gridware
+cd batch_jobs
+sbatch train_CI_summation_cifar_sep.sh
 
 pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128 scipy
 pip3 install --proxy http://hpc-proxy00.city.ac.uk:3128  numpy

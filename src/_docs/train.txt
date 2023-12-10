@@ -1,0 +1,956 @@
+DEBUG:matplotlib.pyplot:Loaded backend tkagg version 8.6.
+Backend TkAgg is interactive backend. Turning interactive mode on.
+INFO:root:Start training 2023-09-19 21:56
+INFO:root:🚀 Trial: 1 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-14554.07211646]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 2 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-2637.19908959]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 3 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-1377.34806246]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 4 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-9374.02361351]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 5 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[86.57533273]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 6 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-5893.5788724]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 7 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-5477.01633975]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 8 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-583.74453025]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 9 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-1548.20300728]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 10 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-2729.98917374]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 11 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-6452.76641203]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 12 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-990.6717925]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 13 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[192.73351627]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 14 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[168.66504517]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 15 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-1017.17063734]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 16 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-1502.43874768]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 17 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[1325.5970352]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 18 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-299.7013946]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 19 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[1531.78985519]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 20 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[3198.85817749]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 21 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[657.23316562]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 22 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[750.3325404]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 23 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-2913.78898292]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 24 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-3295.82777767]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 25 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-1185.04804427]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 26 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-2992.4815092]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 27 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-3341.01993773]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 28 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-1295.74798137]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 29 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-186.67816829]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 30 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-1097.5333379]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:End training 2023-09-20 05:27
+INFO:root:Training took 27071.6
+INFO:root:Start training 2023-09-20 05:27
+INFO:root:🚀 Trial: 1 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-3911.98988555]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-3611.61565283]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 2 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-10715.53529003]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-8039.36195629]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 3 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-4250.85390381]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-6281.62186592]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 4 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-224.31262622]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-5001.34393624]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:🚀 Trial: 5 🚀
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-2158.20814072]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:Finished training associative network
+INFO:root:--Training network 1 -- S1
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+INFO:root:--Training network 1 -- S2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5
+INFO:root:Timestep 2/5
+INFO:root:Timestep 3/5
+INFO:root:Timestep 4/5
+INFO:root:Timestep 5/5
+[-1198.69337555]
+INFO:root:--Training assoc network H_H1 + H_H2
+INFO:root:Epoch 0, lr 0.1
+INFO:root:Timestep 1/5

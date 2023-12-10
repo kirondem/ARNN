@@ -1,17 +1,50 @@
+import math
 import os
 import numpy as np
 
-def dynamic_lambda(h_from, h_to):
-        
-    # Lambda max rule: The maximum weight is set to the maximum weight of the network.
+def dynamic_lambda_1(h_from, h_to):    
+    lambda_max = h_from * h_to
+    if lambda_max > 0.2:
+        lambda_max = 1
 
+    return lambda_max
+
+# Lambda max rule: The maximum weight is set to the maximum weight of the network.
+def dynamic_lambda_2(h_from, h_to):
     return (h_from * h_to)
-    
-    # # TODO: Suppressed 
-    # #lambda_max = 1 # - (h_from * h_to)
 
-    # #lambda_max = lambda_max if lambda_max > 0 else 1
-    # return lambda_max
+# S
+def dynamic_lambda_3(p, o):
+    l = p * (1 - (p - o)**2) * (1 + (p - o)**2)
+    return l
+
+# The sigmoid function compresses the prediction error into the range [0, 1]. 
+# This means that the impact of the error on the resulting value is modulated, with large errors having a bounded effect.
+
+def dynamic_lambda_4(p, o):
+    error = o - p
+    sigmoid_error = 1 / (1 + math.exp(-error))
+    l = p * sigmoid_error
+    return l
+
+#the squared error term means that larger prediction errors have a disproportionately larger effect. It makes the model more sensitive to larger discrepancies between the prediction and outcome.
+# Squared Error: The squared error function is the most commonly used loss function for regression.
+def dynamic_lambda_5(p, o):
+    l = p * (o - p)**2
+    return l
+
+# Linear Error:  
+# This function simply multiplies the predictor by the prediction error. The result will be highest when the predictor is high and the outcome is far from the prediction, either above or below.
+def dynamic_lambda_6(p, o):
+    l = p * (o - p)
+    return l
+
+def dynamic_lambda_7(p, o):
+    return p + (o - p)
+
+def dynamic_lambda(p, o):
+    l = p * ((1 - (p - o)) * (1 + (p - o)))
+    return l
 
 def lambda_US_magnitude(h_to):
     # Determined by the magnitude of the US
@@ -147,7 +180,7 @@ def set_max_cutoff_weight(weights: np.array, cutoff_weight: float):
 
     weights[weights > cutoff_weight] = cutoff_weight
 
-    return 
+    return weights
 
 def save_weights(Path, name, data, trials, epochs, time_steps):
     path = os.path.join(Path, 'saved_weights', '{}_{}_{}_{}.npy'.format(trials, epochs, time_steps, name))
@@ -156,6 +189,7 @@ def save_weights(Path, name, data, trials, epochs, time_steps):
 
 def load_weights(Path, name, trials, epochs, time_steps, network_type):
     path = os.path.join(Path, 'saved_weights', '{}_{}_{}_{}_{}.npy'.format(trials, epochs, time_steps, name, network_type))
+    print('path: ', path)
     with open(path, 'rb') as f:
         data = np.load(f)
     return data

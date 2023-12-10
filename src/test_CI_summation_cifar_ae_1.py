@@ -3,20 +3,20 @@ import argparse
 import datetime
 from operator import mod
 import os
-import random
 import sys
 
 sys.path.append(os.getcwd())
 import time
 import numpy as np
-import cv2
-from lib import enums, constants, utils, plot_utils, cifar_features
+from lib import enums, constants, cifar_features
 from models.associative_network import AssociativeNetwork
 from lib.utils import concat_images, dynamic_lambda, transform_inputs, load_weights, save_weights
 from lib.activation_functions import relu
 import torch
 from torchvision import datasets, models, transforms
 from torchvision.models import resnet50, ResNet18_Weights
+
+from models.auto_encoder import Autoencoder
 
 LOG_LEVEL = logging.getLevelName(constants.lOG_LEVEL)
 logging.basicConfig(level=LOG_LEVEL)
@@ -27,6 +27,11 @@ APPLICATION = enums.Application.base_line.value
 
 device = torch.device("cuda:0" if (torch.cuda.is_available()) else "cpu")
 activation = {}
+
+path_en = os.path.join(PATH, 'saved_weights', f'autoencoder_{constants.AE_TRAIN_EPOCHS}.pth')
+auto_encoder = Autoencoder(512, 256).to(device)
+auto_encoder.load_state_dict(torch.load(path_en))
+auto_encoder.eval()
 
 def get_args_parser():
     parser = argparse.ArgumentParser('Train associative network', add_help=False)
@@ -115,9 +120,10 @@ def main():
     nothing_image_double = concat_images(nothing_image, nothing_image)
 
     no_of_units_network_1 = (resized_image_dim * resized_image_dim) * 2
+    no_of_units_network_assoc = no_of_units_network_1
 
     network1 = AssociativeNetwork(no_of_units_network_1, args.time_steps)
-    network_assoc = AssociativeNetwork(no_of_units_network_1 * 2 , args.time_steps)
+    network_assoc = AssociativeNetwork(no_of_units_network_assoc, args.time_steps)
 
     # Load the saved weights
     Wt_LAST1 = load_weights(PATH, 'Wt_LAST1_1', trials, args.epochs, args.time_steps, network_type)
@@ -128,11 +134,7 @@ def main():
 
     #TEST 1
     # CS+ -> US
-    # Cross -> Star
     # Frog -> Cat
-
-    #s1 = concat_images(features_frog, nothing_image)
-    #s2 = concat_images(features_cat, nothing_image)
 
     s1 = np.concatenate((features_frog, np.zeros_like(features_frog)), axis=1)
     s2 = np.concatenate((features_cat, np.zeros_like(features_cat)), axis=1)
@@ -153,9 +155,27 @@ def main():
     W, Wt_LAST, H, H_H2 = train(network1, s2, data_size, batch_size, args.epochs, args.time_steps, args.lr, decay_threshold)
     Wt_LAST_2 = Wt_LAST.copy()
 
+    H_H1 = np.array(H_H1, dtype='float32')
+    H_H1 = torch.from_numpy(H_H1).to(device)
+    H_H1  = H_H1.unsqueeze(0)
+    with torch.no_grad():
+        H_H1 = auto_encoder.encoder(H_H1)
+    H_H1 = H_H1.squeeze(0).detach().cpu().numpy()
+
+    H_H2 = np.array(H_H2, dtype='float32')
+    H_H2 = torch.from_numpy(H_H2).to(device)
+    H_H2  = H_H2.unsqueeze(0)
+    with torch.no_grad():
+        H_H2 = auto_encoder.encoder(H_H2)
+    H_H2 = H_H2.squeeze(0).detach().cpu().numpy()
+
     assoc_input = np.concatenate([H_H1, H_H2])
+    assoc_input = assoc_input.flatten()
     assoc_input = assoc_input.reshape((1, assoc_input.shape[0]))
 
+    assoc_input = transform_inputs(assoc_input)
+
+    #IMPORTANT
     assoc_input = transform_inputs(assoc_input)
 
     logging.info("--Training assoc network H_H1 + H_H2")
@@ -171,8 +191,8 @@ def main():
     #print('total_last_assoc_weights: ', total_last_assoc_weights)
 
     total_activations = []
-    for from_idx in range(0, no_of_units_network_1):
-        for to_idx in range(no_of_units_network_1, no_of_units_network_1 * 2):
+    for from_idx in range(0, 256 ):
+        for to_idx in range(256, 512):
             total_activations.append( Wt_LAST_A[from_idx, to_idx] * H_HA[from_idx])
 
     total_activations = np.array(total_activations)

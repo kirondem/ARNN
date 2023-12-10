@@ -64,7 +64,7 @@ class AssociativeNetwork(Base):
 
             # 3) Learning rule (Update the weights)
             W = self.learning.update_weights(self.W[t], self.H[t], learning_rate, directly_activated_units_idxs, self.DECAYED_IDXS[t], self.DECAYED_ACTIVATIONS[t])
-
+            
             # 4) Decay the activations
             decayed_activations, decayed_activations_idxs = utils.decay_activation_g(self.H[t], t + 1, decay_threshold, time_steps)
 
@@ -99,11 +99,15 @@ class AssociativeNetwork(Base):
             # directly_activated_units_idxs, self.H[t] = self.learning.direct_activation_of_units(x, self.H[t])
 
             # 2) Associative activation
-            H_H = self.learning.associative_activations(self.W[t], self.DECAYED_IDXS[t], self.DECAYED_ACTIVATIONS[t])
+            ##H_H = self.learning.associative_activations(self.W[t], self.DECAYED_IDXS[t], self.DECAYED_ACTIVATIONS[t])
+            H_H = self.learning.associative_activations_optimised(self.W[t], self.DECAYED_IDXS[t], self.DECAYED_ACTIVATIONS[t])
             self.H_H[t] = H_H.copy()
 
             # 3) Learning rule (Update the weights)
-            self.learning.update_weights(t, self.W[t], self.H[t], self.H_H[t], learning_rate, directly_activated_units_idxs, self.DECAYED_IDXS[t], self.DECAYED_ACTIVATIONS[t])
+            #w1 = self.learning.update_weights(t, self.W[t], self.H[t], self.H_H[t], learning_rate, directly_activated_units_idxs, self.DECAYED_IDXS[t], self.DECAYED_ACTIVATIONS[t])
+
+            w2 = self.learning.update_weights_optimised(t, self.W[t], self.H[t], self.H_H[t], learning_rate, directly_activated_units_idxs, self.DECAYED_IDXS[t], self.DECAYED_ACTIVATIONS[t])
+
 
             # 4) Decay the activations
             decayed_activations, decayed_activations_idxs = utils.decay_activation_g(self.H[t], t + 1, decay_threshold, time_steps)
