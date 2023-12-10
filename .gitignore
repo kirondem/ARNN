@@ -27,3 +27,5 @@ src/plots/*
 *.output
 *.pth
 
+mnist_data/*
+
